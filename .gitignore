@@ -17,7 +17,7 @@
 /versioned/
 Gemfile.lock
 archive.json
-draft-marcas-knowledge-graph-yang.xml
+draft-marcas-nmop-knowledge-graph-yang.xml
 package-lock.json
 report.xml
 !requirements.txt

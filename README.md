@@ -2,10 +2,10 @@
 
 This is the working area for the individual Internet-Draft, "Knowledge Graphs for YANG-based Network Management".
 
-* [Editor's Copy](https://idomingu.github.io/knowledge-graph-yang/#go.draft-marcas-knowledge-graph-yang.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-marcas-knowledge-graph-yang)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-marcas-knowledge-graph-yang)
-* [Compare Editor's Copy to Individual Draft](https://idomingu.github.io/knowledge-graph-yang/#go.draft-marcas-knowledge-graph-yang.diff)
+* [Editor's Copy](https://idomingu.github.io/knowledge-graph-yang/#go.draft-marcas-nmop-knowledge-graph-yang.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-marcas-nmop-knowledge-graph-yang)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-marcas-nmop-knowledge-graph-yang)
+* [Compare Editor's Copy to Individual Draft](https://idomingu.github.io/knowledge-graph-yang/#go.draft-marcas-nmop-knowledge-graph-yang.diff)
 
 
 ## Contributing
