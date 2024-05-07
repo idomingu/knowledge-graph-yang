@@ -40,6 +40,7 @@ normative:
   RFC8199:
   RFC8345:
   RFC8641:
+  RFC8949:
   RFC9232:
   RFC9417:
   RFC9418:
@@ -172,7 +173,7 @@ These steps are the following: ingestion, mapping, and materialization.
 
 ### Ingestion
 
-Represents the first step in the creation of the knowledge graph. This step is realized by means of collectors that ingest raw data from the selected data source. These collectors implement data access protocols which are specific to the technology and type of the data source. When it comes to network management protocols based on YANG, these protocols can be NETCONF {{RFC}}, RESTCONF{{RFC8040}} and gNMI{{gnmi}}.
+Represents the first step in the creation of the knowledge graph. This step is realized by means of collectors that ingest raw data from the selected data source. These collectors implement data access protocols which are specific to the technology and type of the data source. When it comes to network management protocols based on YANG, these protocols can be NETCONF {{RFC6241}}, RESTCONF{{RFC8040}} and gNMI{{gnmi}}.
 
 Two main types of data sources are identified based on the techniques used to ingest the data, namely, batch and streaming. In the case of batch data sources data are pulled (once or periodically) from the data source. This could be represented by queries sent to a YANG-server like an SDN controller to fetch the network topology {{RFC8345}}.
 
