@@ -178,6 +178,39 @@ Two main types of data sources are identified based on the techniques used to in
 
 Regarding streaming data sources, the collector subscribes to the YANG-server to receives notifications of YANG data periodically or upon changes in the data source (e.g., a network device whose interface goes down). These subscriptions can be realized, either based on configurations or dynamically, using mechanisms like YANG Push{{RFC8641}}. But additionally, another common scenario is the use of message broker systems like Apache Kafka for decoupling the ingestion of streams of YANG data {{I-D.netana-nmop-yang-message-broker-integration}}. Hence, knowledge graph collectors could also support the ingestion of YANG data from these kinds of message brokers, as shown in Fig X.
 
+~~~
+   +------------------------------------------------------------+
+   |                  Knowledge Graph Database                  |
+   +------------------------------------------------------------+
+                                  ^
+                                  | (11) RDF data
+                                  |
+   +------------------------------------------------------------+
+   |            Knowledge Graph Construction Pipeline           |
+   +------------------------------------------------------------+
+(9) Get  |  ^                                   ^ (8) Validate serialized Message
+ Schema  |  |                                   | Against Schema on Consumer
+         |  |                                   |
+         |  |                                   |
+         |  | (10) Issue                        | (7) Serialize YANG-Push Message
+         v  | Schema             (5) Post       | annotated Schema ID
+   +--------------------+          Schema  +--------------------+
+   |       YANG         | <--------------  |  Data Collection   |
+   |  Schema Registry   | -------------->  | YANG-Push Receiver |
+   +--------------------+ (6) Issue        +--------------------+
+                          Schema ID     (3) Get |  ^ (2) Receive YANG-Push
+                                         Schema |  | Subscription Start Message
+                                                |  |   ^
+                                                |  |   |
+                                                |  |   | (4) Publish YANG-Push
+                                                v  |   | Message with Subscription ID
+   +--------------------+                  +--------------------+
+   |      Network       | (1) Subscribe    |   Network Node     |
+   |   Orchestration    | ---------------> | YANG-Push Publisher|
+   +--------------------+                  +--------------------+
+
+~~~
+
 TBD: Fig X (Integration of KG construcion pipeline with YANG-kafka pipeline)
 
 ### Mapping
