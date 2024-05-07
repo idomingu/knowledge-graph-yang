@@ -28,7 +28,7 @@ author:
 - initials: I. D.
   surname: Martinez-Casanueva
   fullname: Ignacio Dominguez Martinez-Casanueva
-  organization: Telefonica Innovacion Digital
+  organization: Telefonica
   email: ignacio.dominguezmartinez@telefonica.com
 
 normative:
@@ -54,21 +54,20 @@ normative:
 
 informative:
   csvw:
-    title: CSVW
+    title: CSVW - CSV on the Web
     target: https://csvw.org
   gnmi:
-    title: gnmi spec
+    title: gRPC Network Management Interface (gNMI)
     target: https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md
   fuseki:
-    title: Apache Fuseki
+    title: Apache Jena Fuseki
     target: https://jena.apache.org/documentation/fuseki2/
   jsonld:
-    title: JSON-LD
+    title: JSON-LD - JSON for Linking Data
     target: https://json-ld.org
   neo4j:
-    title: Neo4j
+    title: rdflib-neo4j - RDFLib Store backed by neo4j!
     target: https://github.com/neo4j-labs/rdflib-neo4j
-
 
 --- abstract
 
@@ -89,9 +88,9 @@ Such amount and heterogeneity of YANG data models has hindered the collection an
 ~~~
 module: ietf-service-assurance-device
 
-     augment /sain:subservices/sain:subservice/sain:parameter:
-       +--rw parameters
-          +--rw device    string
+  augment /sain:subservices/sain:subservice/sain:parameter:
+    +--rw parameters
+      +--rw device    string
 ~~~
 
 The extraction of this hidden knowledge from YANG models would enable the integration of YANG data silos at a conceptual level, regardless of the physical implementation (i.e., the YANG schema, syntax, and encoding format). In this regard, the knowledge graph is getting traction as promising technology that can link data silos based on common concepts like “device” that are captured in ontologies. Besides, by transforming the YANG data into a graph structure the relationships between data silos are represented as first class citizens in the graph instead of “foreign keys” where the relationship is made implicit. In the following, this document provides guidelines for building a knowledge graph for data sources based on the YANG language.
@@ -221,7 +220,7 @@ RML is a declarative language that is currently being standardized within the W3
 
 ### Materialization
 
-This is the final step of the knowledge graph creation. This step receives as an input the RDF data generated in the Mapping step. At this point, the RDF data can be sent to an RDF triple store like Apache Fuseki {{fuseki}} for consumption via SPARQL. But alternatively, this step may transform the RDF data into an LPG structure and store the resulting data in a graph database like Neoj4 {{neo4j}}. Similarly, the RDF data could also be transformed into the ETSI NGSI-LD standard and stored in an NGSI-LD Context Broker.
+This is the final step of the knowledge graph creation. This step receives as an input the RDF data generated in the Mapping step. At this point, the RDF data can be sent to an RDF triple store like Apache Jena Fuseki {{fuseki}} for consumption via SPARQL. But alternatively, this step may transform the RDF data into an LPG structure and store the resulting data in a graph database like Neoj4 {{neo4j}}. Similarly, the RDF data could also be transformed into the ETSI NGSI-LD standard and stored in an NGSI-LD Context Broker.
 
 # Knowledge Graph Applications
 
