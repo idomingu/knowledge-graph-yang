@@ -9,18 +9,18 @@ number:
 date:
 consensus: true
 v: 1
-area: Operations and Management
-workgroup: Network Management Operations
+# area: Operations and Management
+# workgroup: Network Management Operations
 keyword:
  - semantics
  - RDF
 venue:
-  group: Network Management Operations
-  type: Working Group
-  mail: nmop@ietf.org
-  arch: https://mailarchive.ietf.org/arch/browse/nmop/
-  github: idomingu/knowledge-graph-yang
-  latest: "https://idomingu.github.io/knowledge-graph-yang/draft-marcas-nmop-knowledge-graph-yang.html"
+#  group: Network Management Operations
+#  type: Working Group
+#  mail: nmop@ietf.org
+#  arch: https://mailarchive.ietf.org/arch/browse/nmop/
+  github: "idomingu/knowledge-graph-yang"
+  latest: "https://idomingu.github.io/knowledge-graph-yang/draft-marcas-knowledge-graph-yang.html"
 
 author:
 - initials: I. D.
