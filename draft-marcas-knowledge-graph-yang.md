@@ -12,9 +12,7 @@ v: 1
 area: Operations and Management
 workgroup: Network Management Operations
 keyword:
- - knowledge graph
  - semantics
- - data integration
  - RDF
 venue:
   group: Network Management Operations
@@ -22,14 +20,14 @@ venue:
   mail: nmop@ietf.org
   arch: https://mailarchive.ietf.org/arch/browse/nmop/
   github: idomingu/knowledge-graph-yang
-  latest: https://example.com/LATEST
+  latest: "https://idomingu.github.io/knowledge-graph-yang/draft-marcas-nmop-knowledge-graph-yang.html"
 
 author:
 - initials: I. D.
   surname: Martinez-Casanueva
   fullname: Ignacio Dominguez Martinez-Casanueva
   organization: Telefonica Innovacion Digital
-  email: "https://idomingu.github.io/knowledge-graph-yang/draft-marcas-nmop-knowledge-graph-yang.html"
+  email: ignacio.dominguezmartinez@telefonica.com
 
 normative:
   RFC3444:
