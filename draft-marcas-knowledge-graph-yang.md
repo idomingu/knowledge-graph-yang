@@ -239,7 +239,5 @@ This document has no IANA actions.
 --- back
 
 # Acknowledgments
-
 {:numbered="false"}
-
 This document is based on work partially funded by the EU Horizon Europe projects aerOS (grant 101069732) and ROBUST-6G (grant 101139068).
