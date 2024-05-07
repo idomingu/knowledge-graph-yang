@@ -3,22 +3,24 @@ title: "Knowledge Graphs for YANG-based Network Management"
 abbrev: "knowledge-graph-yang"
 category: info
 
-docname: draft-marcas-knowledge-graph-yang-latest
+docname: draft-marcas-nmop-knowledge-graph-yang-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
 consensus: true
 v: 1
-# area: Operations and Management
-# workgroup: Network Management Operations
+area: "Operations and Management"
+workgroup: "Network Management Operations"
 keyword:
+ - knowledge graph
  - semantics
+ - data integration
  - RDF
 venue:
-#  group: Network Management Operations
-#  type: Working Group
-#  mail: nmop@ietf.org
-#  arch: https://mailarchive.ietf.org/arch/browse/nmop/
+  group: "Network Management Operations"
+  type: "Working Group"
+  mail: "nmop@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/browse/nmop/"
   github: "idomingu/knowledge-graph-yang"
   latest: "https://idomingu.github.io/knowledge-graph-yang/draft-marcas-knowledge-graph-yang.html"
 
