@@ -29,7 +29,7 @@ author:
   surname: Martinez-Casanueva
   fullname: Ignacio Dominguez Martinez-Casanueva
   organization: Telefonica Innovacion Digital
-  email: "ignacio.dominguezmartinez@telefonica.com"
+  email: "https://idomingu.github.io/knowledge-graph-yang/draft-marcas-nmop-knowledge-graph-yang.html"
 
 normative:
   RFC3444:
@@ -47,11 +47,27 @@ normative:
   I-D.havel-nmop-digital-map: I-D.havel-nmop-digital-map
   I-D.ietf-opsawg-collected-data-manifest: I-D.ietf-opsawg-collected-data-manifest
   I-D.lopez-opsawg-yang-provenance: I-D.lopez-opsawg-yang-provenance
+  I-D.ietf-ivy-network-inventory-yang: I-D.ietf-ivy-network-inventory-yang
+  I-D.lincla-netconf-yang-library-augmentation: I-D.lincla-netconf-yang-library-augmentation
+  I-D.irtf-nmrg-network-digital-twin-arch: I-D.irtf-nmrg-network-digital-twin-arch
 
 informative:
+  csvw:
+    title: CSVW
+    target: https://csvw.org
   gnmi:
     title: gnmi spec
     target: https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md
+  fuseki:
+    title: Apache Fuseki
+    target: https://jena.apache.org/documentation/fuseki2/
+  jsonld:
+    title: JSON-LD
+    target: https://json-ld.org
+  neo4j:
+    title: Neo4j
+    target: https://github.com/neo4j-labs/rdflib-neo4j
+
 
 --- abstract
 
@@ -67,15 +83,15 @@ The size and complexity of networks keeps increasing, thus the path towards enab
 
 MDT in particular has drawn the attention of the network industry due to the benefits of modeling configuration and status data of the network with a formal data modeling language like YANG. However, since the inception of YANG, the network industry has experienced the massive creation of YANG data models developed by vendors, standards developing organizations (e.g., IETF), and consortia (e.g., OpenConfig). In turn, these data models target different abstraction layers of the network, namely, network element, and network service {{RFC8199}}. Additionally, YANG data models may augment or deviate other models to respectively define new features or remove existing ones depending on the device implementation. In summary, this tendency has resulted into a wide variety of independent YANG data models, hence, the creation of data silos in the network.
 
-Such amount and heterogeneity of YANG data models has hindered the collection and combination of network data for advanced network analytics. The current landscape shows different YANG models referencing the same concepts in a different way. For example, ietf-interface from the IETF and openconfig-interfaces from OpenConfig follow different structures and syntax, but both reference the same “interface” concept. On the other, YANG models conveying semantic relationships with other concepts via identifiers as shown in RFC 9418, where the leaf “device” hints a relationship between the “subservice “concept and the “device” concept.
+Such amount and heterogeneity of YANG data models has hindered the collection and combination of network data for advanced network analytics. The current landscape shows different YANG models referencing the same concepts in a different way. For example, ietf-interface from the IETF and openconfig-interfaces from OpenConfig follow different structures and syntax, but both reference the same “interface” concept. On the other, YANG models conveying semantic relationships with other concepts via identifiers as shown in {{RFC9418}}, where the leaf “device” hints a relationship between the “subservice “concept and the “device” concept.
 
-```
+~~~
 module: ietf-service-assurance-device
 
      augment /sain:subservices/sain:subservice/sain:parameter:
        +--rw parameters
           +--rw device    string
-```
+~~~
 
 The extraction of this hidden knowledge from YANG models would enable the integration of YANG data silos at a conceptual level, regardless of the physical implementation (i.e., the YANG schema, syntax, and encoding format). In this regard, the knowledge graph is getting traction as promising technology that can link data silos based on common concepts like “device” that are captured in ontologies. Besides, by transforming the YANG data into a graph structure the relationships between data silos are represented as first class citizens in the graph instead of “foreign keys” where the relationship is made implicit. In the following, this document provides guidelines for building a knowledge graph for data sources based on the YANG language.
 
@@ -134,6 +150,7 @@ The workflow starts with the specification of requirements that the ontology mus
 
 The construction of a knowledge graph is supported by a data pipeline that follows the archetypical Extract-Transform-Load (ETL), wherein the raw data is collected from the source, transformed, and finally, stored for consumption. In this sense, the knowledge graph creation can be split into multiple steps as depicted in Fig X.
 
+~~~
 +-----------+       +---------+       +-----------------+
 |           |       |         |       |                 |
 | Ingestion +------>| Mapping +------>| Materialization |
@@ -149,16 +166,17 @@ The construction of a knowledge graph is supported by a data pipeline that follo
 |  Source  |                             |   Graph   |
 | (device) |                             +-----------+
 +----------+
+~~~
 
 These steps are the following: ingestion, mapping, and materialization.
 
-### Ingestion**
+### Ingestion
 
-Represents the first step in the creation of the knowledge graph. This step is realized by means of collectors that ingest raw data from the selected data source. These collectors implement data access protocols which are specific to the technology and type of the data source. When it comes to network management protocols based on YANG, these protocols can be NETCONF {{RFC}}, RESTCONF{{RFC8040}} and [gNMI](https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md).
+Represents the first step in the creation of the knowledge graph. This step is realized by means of collectors that ingest raw data from the selected data source. These collectors implement data access protocols which are specific to the technology and type of the data source. When it comes to network management protocols based on YANG, these protocols can be NETCONF {{RFC}}, RESTCONF{{RFC8040}} and gNMI{{gnmi}}.
 
-Two main types of data sources are identified based on the techniques used to ingest the data, namely, batch and streaming. In the case of batch data sources data are pulled (once or periodically) from the data source. This could be represented by queries sent to a YANG-server like an SDN controller to fetch the [network topology.](https://datatracker.ietf.org/doc/html/rfc8345)
+Two main types of data sources are identified based on the techniques used to ingest the data, namely, batch and streaming. In the case of batch data sources data are pulled (once or periodically) from the data source. This could be represented by queries sent to a YANG-server like an SDN controller to fetch the network topology {{RFC8345}}.
 
-Regarding streaming data sources, the collector subscribes to the YANG-server to receives notifications of YANG data periodically or upon changes in the data source (e.g., a network device whose interface goes down). These subscriptions can be realized, either based on configurations or dynamically, using mechanisms like Y[ANG Push](https://datatracker.ietf.org/doc/rfc8641/). But additionally, another common scenario is [the use of message broker systems like Apache Kafka for decoupling the ingestion of streams of YANG data](https://www.notion.so/An-architecture-for-YANG-Push-to-Apache-Kafka-Integration-178da4201c3d4c0d91b7bfe15a799b7a?pvs=21). Hence, knowledge graph collectors could also support the ingestion of YANG data from these kinds of message brokers, as shown in Fig X.
+Regarding streaming data sources, the collector subscribes to the YANG-server to receives notifications of YANG data periodically or upon changes in the data source (e.g., a network device whose interface goes down). These subscriptions can be realized, either based on configurations or dynamically, using mechanisms like YANG Push{{RFC8641}}. But additionally, another common scenario is the use of message broker systems like Apache Kafka for decoupling the ingestion of streams of YANG data {{I-D.netana-nmop-yang-message-broker-integration}}. Hence, knowledge graph collectors could also support the ingestion of YANG data from these kinds of message brokers, as shown in Fig X.
 
 *TBD: Fig X (Integration of KG construcion pipeline with YANG-kafka pipeline)*
 
@@ -166,11 +184,11 @@ Regarding streaming data sources, the collector subscribes to the YANG-server to
 
 This second step receives the raw data data from the Ingestion step. Here, the raw data is mapped to the concepts capture in one or more ontologies. By applying these mapping rules, the raw data is semantically annotated and transformed into RDF data. These mappings can be declared using declarative languages like RDF Mapping Language (RML).
 
-RML is a declarative language that is currently being standardized within the W3C KGC that allows for defining mappings rules for raw data encoded in semi-structured formats like XML or JSON. The benefits of using a declarative language like RML are twofold: i) the engine that implements the RML rules is generic, thus the mappings rules are decoupled from the code; ii) the explicit representation of mapping and transformation rules as part of the knowledge graph provides data lineage insights that can greatly improve data quality and the troubleshooting of data pipelines. RML is making progress towards becoming a standard, but support of additional YANG encoding formats like [CBOR](https://www.rfc-editor.org/rfc/rfc8949.html) or Protobuf remains a challenge.
+RML is a declarative language that is currently being standardized within the W3C KGC that allows for defining mappings rules for raw data encoded in semi-structured formats like XML or JSON. The benefits of using a declarative language like RML are twofold: i) the engine that implements the RML rules is generic, thus the mappings rules are decoupled from the code; ii) the explicit representation of mapping and transformation rules as part of the knowledge graph provides data lineage insights that can greatly improve data quality and the troubleshooting of data pipelines. RML is making progress towards becoming a standard, but support of additional YANG encoding formats like CBOR {{RFC8949}} or Protobuf remains a challenge.
 
 ### Materialization
 
-This is the final step of the knowledge graph creation. This step receives as an input the RDF data generated in the Mapping step. At this point, the RDF data can be sent to an RDF triple store like [Apache Fuseki](https://jena.apache.org/documentation/fuseki2/) for consumption via SPARQL. But alternatively, this step may transform the RDF data into an LPG structure and store the resulting data in a graph database like [Neoj4](https://github.com/neo4j-labs/rdflib-neo4j). Similarly, the RDF data could also be transformed into the ETSI NGSI-LD standard and stored in an NGSI-LD Context Broker.
+This is the final step of the knowledge graph creation. This step receives as an input the RDF data generated in the Mapping step. At this point, the RDF data can be sent to an RDF triple store like Apache Fuseki {{fuseki}} for consumption via SPARQL. But alternatively, this step may transform the RDF data into an LPG structure and store the resulting data in a graph database like Neoj4 {{neo4j}}. Similarly, the RDF data could also be transformed into the ETSI NGSI-LD standard and stored in an NGSI-LD Context Broker.
 
 # Knowledge Graph Applications
 
@@ -178,17 +196,17 @@ This is the final step of the knowledge graph creation. This step receives as an
 
 - **Anomaly detection and incident management:** Projects like NORIA have demonstrated how knowledge graphs can help in the detection of anomalies in network systems. This approach links data pertaining to different data silos like network infrastructure, logs, alarms, and ticketing. In another example, the combination network topology data with data about network interface status, consumers of the knowledge graph can detect network anomalies like link fault because an network interface has been unexpectedly disabled but it was configured to be enabled.
 
-- **Service assurance**: A knowledge graph can enable the implementation of the [service assurance for intent-based networking](https://www.notion.so/9417-SAIN-Architecture-682e085ae77f4cc9819ec346489913a9?pvs=21) architecture defined in rfc 9417. Precisely, this architecture,  and the companion YANG data models from RFC 9418, define an assurance graph where dependencies among network services and their associated health and symptoms are captured. All these data, which can be further linked with other data silos like network topology or network interface status, can be naturally integrated and represented in a knowledge graph.
+- **Service assurance**: A knowledge graph can enable the implementation of the service assurance for intent-based networking architecture defined in {{RFC9417}}. Precisely, this architecture,  and the companion YANG data models from RFC 9418, define an assurance graph where dependencies among network services and their associated health and symptoms are captured. All these data, which can be further linked with other data silos like network topology or network interface status, can be naturally integrated and represented in a knowledge graph.
 
-- **Network digital twins**: Knowledge graph are considered promising candidates for the realization of [network digital twins](https://www.notion.so/Network-Digital-Twin-3986d68fe8764557827d35c6b3362340?pvs=21). The ability to integrate heterogenous silos of data, in combination with the explicit representation of the semantics of the data, make knowledge graph a powerful technology for building and connecting multiple network digital twins. In addition, the representation of concepts by means of ontologies, produces abstract representations of network digital twins, regardless of the complexities of the underlying technologies. For instance, an abstract representation of a network topology ([Digital Map](https://www.notion.so/Digital-Map-a0ad90ec6b1045b286a5f4cbd1b81b77?pvs=21)) in the knowledge graph can be translated into a descriptor or data model that is specific to the technology used (e.g., KNE, ContainerLab, OSM).
+- **Network digital twins**: Knowledge graph are considered promising candidates for the realization of network digital twins {{I-D.irtf-nmrg-network-digital-twin-arch}}. The ability to integrate heterogenous silos of data, in combination with the explicit representation of the semantics of the data, make knowledge graph a powerful technology for building and connecting multiple network digital twins. In addition, the representation of concepts by means of ontologies, produces abstract representations of network digital twins, regardless of the complexities of the underlying technologies. For instance, an abstract representation of a network topology Digital Map {{I-D.havel-nmop-digital-map}} in the knowledge graph can be translated into a descriptor or data model that is specific to the technology used (e.g., KNE, ContainerLab, OSM).
 
-- **Evolution of YANG Catalog**: The flexibility and extensibility of knowledge graphs have made them a popular choice for implementing data catalogs. The purpose of a data catalog is to provide consumers with a registry of datasets exposed by data sources where to find data of interest. Additionally, these datasets can be linked to the (business) concepts that they refer to, so that consumers can search for datasets based on relevant concepts such as “interface”. Taking inspiration from these implementations, and building on a knowledge graph, the YANG Catalog could evolve towards a data catalog, where the YANG modules represent those datasets of interest. The dependencies between YANG models (import, deviations, augments) can be naturally represented in the knowledge graph. In turn, these YANG models can be linked with concepts that are represented in ontologies. Additionally, these YANG models, can be combined with the implementation details of network devices ([yang lib augment](https://www.notion.so/YANG-Library-Augmentation-e070292012d24bf7be3be14a85990183?pvs=21)) that could be part of an [inventory](https://www.notion.so/Network-Inventory-11e78d5198814a46883cbe4250d8d9db?pvs=21).
+- **Evolution of YANG Catalog**: The flexibility and extensibility of knowledge graphs have made them a popular choice for implementing data catalogs. The purpose of a data catalog is to provide consumers with a registry of datasets exposed by data sources where to find data of interest. Additionally, these datasets can be linked to the (business) concepts that they refer to, so that consumers can search for datasets based on relevant concepts such as “interface”. Taking inspiration from these implementations, and building on a knowledge graph, the YANG Catalog could evolve towards a data catalog, where the YANG modules represent those datasets of interest. The dependencies between YANG models (import, deviations, augments) can be naturally represented in the knowledge graph. In turn, these YANG models can be linked with concepts that are represented in ontologies. Additionally, these YANG models, can be combined with the implementation details of network devices yang lib augment {{I-D.lincla-netconf-yang-library-augmentation}} that could be part of an inventory {{I-D.ietf-ivy-network-inventory-yang}}.
 
-- **Contextualized telemetry data**: Having [context of how YANG telemetry data](https://www.notion.so/59772e5731164cca94e44bba972eb7f4?pvs=21) is being collected can improve the understanding of the data for network analytics or closed-loop automation. Knowledge graphs can help in this task by linking the collected data with: i) the   the metadata that characterizes the platform producing the data; and ii) the metadata that characterizes how and when the data were metered.
+- **Contextualized telemetry data**: Having context of how YANG telemetry data {{I-D.ietf-opsawg-collected-data-manifest}} is being collected can improve the understanding of the data for network analytics or closed-loop automation. Knowledge graphs can help in this task by linking the collected data with: i) the   the metadata that characterizes the platform producing the data; and ii) the metadata that characterizes how and when the data were metered.
 
 # Challenges
 
-- **Ontology development**: Time-consuming task that requires skills in knowledge management and conceptual modeling. Additionally, ontology developers should maintain a tight coordination with domain owners and ontology users. Following a standard methodology like LOT provides guidance in the process but still, the development of the ontology requires manual work. Tools that can produce or bootstrap ontologies from existing YANG data models in a semi-automatic, or even automatic, are desirable. In this sense, the future release of the YANG language could be extended to facilitate this task at design time. YANG data models could include explicit semantics in the data models, in the same way that [JSON-LD](https://json-ld.org) or [CSVW](https://csvw.org) include metadata indicating which concepts from concepts are referenced by the data. In the current version of YANG, this could be achieved at runtime using the YANG Metadata extension {{RFC7952}}. With this extension, YANG data models could include additional metadata to indicate the ontology concept a YANG data node is referring to, though this approach only works at runtime, and additionally, it would require augmenting existing YANG data models.
+- **Ontology development**: Time-consuming task that requires skills in knowledge management and conceptual modeling. Additionally, ontology developers should maintain a tight coordination with domain owners and ontology users. Following a standard methodology like LOT provides guidance in the process but still, the development of the ontology requires manual work. Tools that can produce or bootstrap ontologies from existing YANG data models in a semi-automatic, or even automatic, are desirable. In this sense, the future release of the YANG language could be extended to facilitate this task at design time. YANG data models could include explicit semantics in the data models, in the same way that JSON-LD {{jsonld}} or CSVW {{csvw}} include metadata indicating which concepts from concepts are referenced by the data. In the current version of YANG, this could be achieved at runtime using the YANG Metadata extension {{RFC7952}}. With this extension, YANG data models could include additional metadata to indicate the ontology concept a YANG data node is referring to, though this approach only works at runtime, and additionally, it would require augmenting existing YANG data models.
 
 - **Pipeline performance**. To integrate the raw data from the original source into the knowledge graph entails several steps as described before. This steps add an extra latency before having the data stored in the knowledge graph for consumption. This latency can be an important limitation for real-time analytics use cases.
 
@@ -205,7 +223,6 @@ This is the final step of the knowledge graph creation. This step receives as an
 - **Integrity and authenticity of mappings**: The declaration of mappings of raw data to concepts in ontologies is a critical step in the knowledge graph construction. Unauthorized mappings, or even tampered mappings, can lead to security breaches and anomalies producing a great impact on  analytics and machine learning applications that consume data from the knowledge graph. To protect consumers from these scenarios, the knowledge graph must include mechanisms that verify the correctness, authenticity, and integrity of the mappings used in the construction of the graph. Only data owners, as accountable of their data, should be authorized to define and deploy mappings for the knowledge graph construction.
 
 - **Data provenance**: Keeping track of the history of data as they go through the knowledge graph construction pipeline can improve the quality of the data of the knowledge graph. As part of the knowledge graph construction, signatures can be appended to the data {{I-D.lopez-opsawg-yang-provenance}}, can help in verifying that such data come from the golden data source, and therefore, that the data can be trusted.
-
 
 # IANA Considerations
 
@@ -224,6 +241,7 @@ This document has no IANA actions.
 --- back
 
 # Acknowledgments
+
 {:numbered="false"}
 
 This document is based on work partially funded by the EU Horizon Europe projects aerOS (grant 101069732) and ROBUST-6G (grant 101139068).
