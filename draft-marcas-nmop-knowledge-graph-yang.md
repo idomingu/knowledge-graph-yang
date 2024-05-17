@@ -80,11 +80,11 @@ This document introduces the knowledge graph paradigm has a solution to this dat
 
 # Introduction
 
-The size and complexity of networks keeps increasing, thus the path towards enabling an autonomous network requires the combination of network telemetry mechanisms {{RFC9232}}. These mechanisms range from legacy protocols like SNMP to the recent model-driven telemetry (MDT) based on the YANG language {{RFC7950}} and network management protocols such as NETCONF {{RFC6241}} or gNMI {{gnmi}}.
+The size and complexity of networks keeps increasing, thus the path towards enabling an autonomous network requires the combination of network telemetry mechanisms {{RFC9232}}. These mechanisms range from legacy protocols like SNMP to the recent model-driven telemetry (MDT) based on the YANG language {{RFC7950}} and network management protocols such as NETCONF {{RFC6241}}, RESTCONF {{!RFC8040}}, or gNMI {{gnmi}}.
 
 MDT in particular has drawn the attention of the network industry due to the benefits of modeling configuration and status data of the network with a formal data modeling language like YANG. However, since the inception of YANG, the network industry has experienced the massive creation of YANG data models developed by vendors, standards developing organizations (e.g., IETF), and consortia (e.g., OpenConfig). In turn, these data models target different abstraction layers of the network, namely, network element, and network service {{RFC8199}}. Additionally, YANG data models may augment or deviate other models to respectively define new features or remove existing ones depending on the device implementation. In summary, this tendency has resulted into a wide variety of independent YANG data models, hence, the creation of data silos in the network.
 
-Such amount and heterogeneity of YANG data models has hindered the collection and combination of network data for advanced network analytics. The current landscape shows different YANG models referencing the same concepts in a different way. For example, ietf-interface from the IETF and openconfig-interfaces from OpenConfig follow different structures and syntax, but both reference the same “interface” concept. On the other, YANG models conveying semantic relationships with other concepts via identifiers as shown in {{RFC9418}}, where the leaf “device” hints a relationship between the “subservice “concept and the “device” concept.
+Such amount and heterogeneity of YANG data models has hindered the collection and combination of network data for advanced network analytics. The current landscape shows different YANG models referencing the same concepts in a different way. For example, the IETF "ietf-interface" and OpenConfig "openconfig-interfaces" follow different structures and syntax, but both reference the same "interface" concept. On the other hand, YANG models conveying semantic relationships with other concepts via identifiers as shown in {{RFC9418}}, where the leaf "device" hints a relationship between the "subservice" concept and the "device" concept. Refer to Sections 4.1 and 4.4 of {{?I-D.boucadair-nmop-rfc3535-20years-later}} for a discussion on the fragmented YANG ecosystem and the integration complexity issues.
 
 ~~~
 module: ietf-service-assurance-device
@@ -110,7 +110,7 @@ To this end, knowledge graphs build upon on ontologies, which are explicit repre
 
 By mapping the data models (i.e., physical level) with the concepts represented in ontologies (i.e., conceptual level), we can find heterogenous datasets scattered in the network that reference common concepts such as “interface” or “device”. Based on this semantic mapping, in addition to the flexibility of the graph structure, knowledge graphs enable the integration of heterogenous data based their semantics is what knowledge graphs can deliver.
 
-## Graph standards
+## Graph Standards
 
 The RDF data model from the W3C Semantic Web has been considered the standard graph data model given its maturity. For this reason, most of the knowledge graph implementation have relied upon the RDF standard and other standards from the Semantic Web like RDFS, OWL, SHACL, and SPARQL.
 
@@ -126,17 +126,17 @@ The construction of a knowledge graph can be divided into two main activities: o
 
 Ontologies provide the formal representation of the conceptual models that capture the semantics of data, and building on this, the integration of data in the knowledge graph. Ontologies can be developed following different techniques, ranging from manual to fully automated, depending on the characteristics of the data to be integrated in the knowledge graph (e.g., format, schema).
 
-### Automatic knowledge extraction from YANG models
+### Automatic knowledge Extraction from YANG Models
 
 The extraction of knowledge from YANG models can be automated, in particular, by analyzing YANG identities to generate controlled vocabularies and taxonomies.
 
-RFC 7950 defines a YANG identity as “globally unique, abstract, and untyped identity”, therefore, a relation between a YANG identity and a concept is straightforward. Additionally, YANG identities can inherit from other YANG identities via the “base” statement. These ideas align with the notion of a taxonomy, where concepts are hierarchically linked with other concepts.
+{{!RFC7950}} defines a YANG identity as "globally unique, abstract, and untyped identity", therefore, a relation between a YANG identity and a concept is straightforward. Additionally, YANG identities can inherit from other YANG identities via the “base” statement. These ideas align with the notion of a taxonomy, where concepts are hierarchically linked with other concepts.
 
 To support the creation of knowledge structures like taxonomies or thesauri, the W3C standardized the Simple Knowledge Organization System (SKOS). In this ontology, a concept scheme comprises a set of concepts that can be linked with other concepts via hierarchical and associative relations. In the case of YANG, a YANG model containing YANG identities can be represented as an instance of the skos:ConceptScheme class. Next, all YANG identities included in the YANG model can be represented as skos:Concept instances that are contained in the concept scheme. Lastly, those YANG identities that include the “base” statement, the respective SKOS concept will include a relation skos:broader whose range is the SKOS concept representing the parent YANG identity.
 
 TBD: Include an example here or in the annex
 
-### Standard development methodologies
+### Standard Development Methodologies
 
 Automating the extraction of all the knowledge from YANG models is not possible, and therefore, manual intervention from domain experts is required. To ease this process a recommended practice is to develop the ontology by following a standard methodology like Linked Open Terms (LOT).
 
@@ -148,7 +148,7 @@ TBD: Include sample requirements of network topology YANG model (RFC 8345).
 
 ## Construction Pipeline
 
-The construction of a knowledge graph is supported by a data pipeline that follows the archetypical Extract-Transform-Load (ETL), wherein the raw data is collected from the source, transformed, and finally, stored for consumption. In this sense, the knowledge graph creation can be split into multiple steps as depicted in Fig X.
+The construction of a knowledge graph is supported by a data pipeline that follows the archetypical Extract-Transform-Load (ETL), wherein the raw data is collected from the source, transformed, and finally, stored for consumption. In this sense, the knowledge graph creation can be split into multiple steps as depicted in {{ex-construction}}.
 
 ~~~
 +-----------+       +---------+       +-----------------+
@@ -167,12 +167,13 @@ The construction of a knowledge graph is supported by a data pipeline that follo
 | (device) |                             +-----------+
 +----------+
 ~~~
+{: #ex-construction title="Example of Construction Pipeline" artwork-align="center"}
 
 These steps are the following: ingestion, mapping, and materialization.
 
 ### Ingestion
 
-Represents the first step in the creation of the knowledge graph. This step is realized by means of collectors that ingest raw data from the selected data source. These collectors implement data access protocols which are specific to the technology and type of the data source. When it comes to network management protocols based on YANG, these protocols can be NETCONF {{RFC6241}}, RESTCONF{{RFC8040}} and gNMI{{gnmi}}.
+Represents the first step in the creation of the knowledge graph. This step is realized by means of collectors that ingest raw data from the selected data source. These collectors implement data access protocols which are specific to the technology and type of the data source. When it comes to network management protocols based on YANG, these protocols can be NETCONF {{RFC6241}}, RESTCONF {{RFC8040}} and gNMI{{gnmi}}.
 
 Two main types of data sources are identified based on the techniques used to ingest the data, namely, batch and streaming. In the case of batch data sources data are pulled (once or periodically) from the data source. This could be represented by queries sent to a YANG-server like an SDN controller to fetch the network topology {{RFC8345}}.
 
