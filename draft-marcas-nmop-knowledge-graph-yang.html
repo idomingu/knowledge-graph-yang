@@ -6,6 +6,7 @@
 <meta content="initial-scale=1.0" name="viewport">
 <title>Knowledge Graphs for YANG-based Network Management</title>
 <meta content="Ignacio Dominguez Martinez-Casanueva" name="author">
+<meta content="Lucia Cabanillas" name="author">
 <meta content="
        The success of the YANG language and YANG-based protocols for managing the network has unlocked new opportunities in network analytics. However, the wide heterogeneity of YANG models hinders the consumption and analysis of network data. Besides, data encoding formats and transport protocols will differ depending on the network management protocol supported by the network device. These challenges call for new data management paradigms that facilitate the discovery, understanding, integration and access to silos of heterogenous YANG data, abstracting from the complexities of the network devices. 
        This document introduces the knowledge graph paradigm has a solution to this data management problem, with focus on YANG-based network management. The document provides background on related topics such as ontologies and graph standards, and shares guidelines for implementing knowledge graphs from YANG data. 
@@ -1032,7 +1033,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <td class="right">May 2024</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Martinez-Casanueva</td>
+<td class="left">Martinez-Casanueva &amp; Cabanillas</td>
 <td class="center">Expires 1 December 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
@@ -1052,11 +1053,15 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
 <dd class="expires"><time datetime="2024-12-01">1 December 2024</time></dd>
-<dt class="label-authors">Author:</dt>
+<dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
       <div class="author-name">I. D. Martinez-Casanueva</div>
-<div class="org">Telefonica Innovacion Digital</div>
+<div class="org">Telefonica</div>
+</div>
+<div class="author">
+      <div class="author-name">L. Cabanillas</div>
+<div class="org">Telefonica</div>
 </div>
 </dd>
 </dl>
@@ -1208,7 +1213,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1226,9 +1231,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <pre>
 module: ietf-service-assurance-device
 
-     augment /sain:subservices/sain:subservice/sain:parameter:
-       +--rw parameters
-          +--rw device    string
+  augment /sain:subservices/sain:subservice/sain:parameter:
+    +--rw parameters
+      +--rw device    string
 </pre><a href="#section-1-4" class="pilcrow">¶</a>
 </div>
 <p id="section-1-5">The extraction of this hidden knowledge from YANG models would enable the integration of YANG data silos at a conceptual level, regardless of the physical implementation (i.e., the YANG schema, syntax, and encoding format). In this regard, the knowledge graph is getting traction as promising technology that can link data silos based on common concepts like “device” that are captured in ontologies. Besides, by transforming the YANG data into a graph structure the relationships between data silos are represented as first class citizens in the graph instead of “foreign keys” where the relationship is made implicit. In the following, this document provides guidelines for building a knowledge graph for data sources based on the YANG language.<a href="#section-1-5" class="pilcrow">¶</a></p>
@@ -1348,7 +1353,41 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-4.2.1-1">Represents the first step in the creation of the knowledge graph. This step is realized by means of collectors that ingest raw data from the selected data source. These collectors implement data access protocols which are specific to the technology and type of the data source. When it comes to network management protocols based on YANG, these protocols can be NETCONF <span>[<a href="#RFC6241" class="cite xref">RFC6241</a>]</span>, RESTCONF <span>[<a href="#RFC8040" class="cite xref">RFC8040</a>]</span> and gNMI<span>[<a href="#gnmi" class="cite xref">gnmi</a>]</span>.<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
 <p id="section-4.2.1-2">Two main types of data sources are identified based on the techniques used to ingest the data, namely, batch and streaming. In the case of batch data sources data are pulled (once or periodically) from the data source. This could be represented by queries sent to a YANG-server like an SDN controller to fetch the network topology <span>[<a href="#RFC8345" class="cite xref">RFC8345</a>]</span>.<a href="#section-4.2.1-2" class="pilcrow">¶</a></p>
 <p id="section-4.2.1-3">Regarding streaming data sources, the collector subscribes to the YANG-server to receives notifications of YANG data periodically or upon changes in the data source (e.g., a network device whose interface goes down). These subscriptions can be realized, either based on configurations or dynamically, using mechanisms like YANG Push<span>[<a href="#RFC8641" class="cite xref">RFC8641</a>]</span>. But additionally, another common scenario is the use of message broker systems like Apache Kafka for decoupling the ingestion of streams of YANG data <span>[<a href="#I-D.netana-nmop-yang-message-broker-integration" class="cite xref">I-D.netana-nmop-yang-message-broker-integration</a>]</span>. Hence, knowledge graph collectors could also support the ingestion of YANG data from these kinds of message brokers, as shown in Fig X.<a href="#section-4.2.1-3" class="pilcrow">¶</a></p>
-<p id="section-4.2.1-4">TBD: Fig X (Integration of KG construcion pipeline with YANG-kafka pipeline)<a href="#section-4.2.1-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.2.1-4">
+<pre>
+   +------------------------------------------------------------+
+   |                  Knowledge Graph Database                  |
+   +------------------------------------------------------------+
+                                  ^
+                                  | (11) RDF data
+                                  |
+   +------------------------------------------------------------+
+   |            Knowledge Graph Construction Pipeline           |
+   +------------------------------------------------------------+
+(9) Get  |  ^                                   ^ (8) Validate serialized Message
+ Schema  |  |                                   | Against Schema on Consumer
+         |  |                                   |
+         |  |                                   |
+         |  | (10) Issue                        | (7) Serialize YANG-Push Message
+         v  | Schema             (5) Post       | annotated Schema ID
+   +--------------------+          Schema  +--------------------+
+   |       YANG         | &lt;--------------  |  Data Collection   |
+   |  Schema Registry   | --------------&gt;  | YANG-Push Receiver |
+   +--------------------+ (6) Issue        +--------------------+
+                          Schema ID     (3) Get |  ^ (2) Receive YANG-Push
+                                         Schema |  | Subscription Start Message
+                                                |  |   ^
+                                                |  |   |
+                                                |  |   | (4) Publish YANG-Push
+                                                v  |   | Message with Subscription ID
+   +--------------------+                  +--------------------+
+   |      Network       | (1) Subscribe    |   Network Node     |
+   |   Orchestration    | ---------------&gt; | YANG-Push Publisher|
+   +--------------------+                  +--------------------+
+
+</pre><a href="#section-4.2.1-4" class="pilcrow">¶</a>
+</div>
+<p id="section-4.2.1-5">TBD: Fig X (Integration of KG construcion pipeline with YANG-kafka pipeline)<a href="#section-4.2.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="mapping">
@@ -1365,7 +1404,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
           <h4 id="name-materialization">
 <a href="#section-4.2.3" class="section-number selfRef">4.2.3. </a><a href="#name-materialization" class="section-name selfRef">Materialization</a>
           </h4>
-<p id="section-4.2.3-1">This is the final step of the knowledge graph creation. This step receives as an input the RDF data generated in the Mapping step. At this point, the RDF data can be sent to an RDF triple store like Apache Fuseki <span>[<a href="#fuseki" class="cite xref">fuseki</a>]</span> for consumption via SPARQL. But alternatively, this step may transform the RDF data into an LPG structure and store the resulting data in a graph database like Neoj4 <span>[<a href="#neo4j" class="cite xref">neo4j</a>]</span>. Similarly, the RDF data could also be transformed into the ETSI NGSI-LD standard and stored in an NGSI-LD Context Broker.<a href="#section-4.2.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.3-1">This is the final step of the knowledge graph creation. This step receives as an input the RDF data generated in the Mapping step. At this point, the RDF data can be sent to an RDF triple store like Apache Jena Fuseki <span>[<a href="#fuseki" class="cite xref">fuseki</a>]</span> for consumption via SPARQL. But alternatively, this step may transform the RDF data into an LPG structure and store the resulting data in a graph database like Neoj4 <span>[<a href="#neo4j" class="cite xref">neo4j</a>]</span>. Similarly, the RDF data could also be transformed into the ETSI NGSI-LD standard and stored in an NGSI-LD Context Broker.<a href="#section-4.2.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1575,15 +1614,15 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <dl class="references">
 <dt id="csvw">[csvw]</dt>
         <dd>
-<span class="refTitle">"CSVW"</span>, <span>n.d.</span>, <span>&lt;<a href="https://csvw.org">https://csvw.org</a>&gt;</span>. </dd>
+<span class="refTitle">"CSVW - CSV on the Web"</span>, <span>n.d.</span>, <span>&lt;<a href="https://csvw.org">https://csvw.org</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="fuseki">[fuseki]</dt>
         <dd>
-<span class="refTitle">"Apache Fuseki"</span>, <span>n.d.</span>, <span>&lt;<a href="https://jena.apache.org/documentation/fuseki2/">https://jena.apache.org/documentation/fuseki2/</a>&gt;</span>. </dd>
+<span class="refTitle">"Apache Jena Fuseki"</span>, <span>n.d.</span>, <span>&lt;<a href="https://jena.apache.org/documentation/fuseki2/">https://jena.apache.org/documentation/fuseki2/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="gnmi">[gnmi]</dt>
         <dd>
-<span class="refTitle">"gnmi spec"</span>, <span>n.d.</span>, <span>&lt;<a href="https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md">https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md</a>&gt;</span>. </dd>
+<span class="refTitle">"gRPC Network Management Interface (gNMI)"</span>, <span>n.d.</span>, <span>&lt;<a href="https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md">https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.boucadair-nmop-rfc3535-20years-later">[I-D.boucadair-nmop-rfc3535-20years-later]</dt>
         <dd>
@@ -1591,11 +1630,11 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <dd class="break"></dd>
 <dt id="jsonld">[jsonld]</dt>
         <dd>
-<span class="refTitle">"JSON-LD"</span>, <span>n.d.</span>, <span>&lt;<a href="https://json-ld.org">https://json-ld.org</a>&gt;</span>. </dd>
+<span class="refTitle">"JSON-LD - JSON for Linking Data"</span>, <span>n.d.</span>, <span>&lt;<a href="https://json-ld.org">https://json-ld.org</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="neo4j">[neo4j]</dt>
       <dd>
-<span class="refTitle">"Neo4j"</span>, <span>n.d.</span>, <span>&lt;<a href="https://github.com/neo4j-labs/rdflib-neo4j">https://github.com/neo4j-labs/rdflib-neo4j</a>&gt;</span>. </dd>
+<span class="refTitle">"rdflib-neo4j - RDFLib Store backed by neo4j!"</span>, <span>n.d.</span>, <span>&lt;<a href="https://github.com/neo4j-labs/rdflib-neo4j">https://github.com/neo4j-labs/rdflib-neo4j</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -1611,15 +1650,23 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 </div>
 <div id="authors-addresses">
 <section id="appendix-B">
-      <h2 id="name-authors-address">
-<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Ignacio Dominguez Martinez-Casanueva</span></div>
-<div dir="auto" class="left"><span class="org">Telefonica Innovacion Digital</span></div>
+<div dir="auto" class="left"><span class="org">Telefonica</span></div>
 <div class="email">
 <span>Email:</span>
 <a href="mailto:ignacio.dominguezmartinez@telefonica.com" class="email">ignacio.dominguezmartinez@telefonica.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Lucia Cabanillas</span></div>
+<div dir="auto" class="left"><span class="org">Telefonica</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:lucia.cabanillasrodriguez@telefonica.com" class="email">lucia.cabanillasrodriguez@telefonica.com</a>
 </div>
 </address>
 </section>

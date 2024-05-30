@@ -3,9 +3,9 @@
 
 
 Network Management Operations                   I. D. Martinez-Casanueva
-Internet-Draft                             Telefonica Innovacion Digital
-Intended status: Informational                               30 May 2024
-Expires: 1 December 2024
+Internet-Draft                                             L. Cabanillas
+Intended status: Informational                                Telefonica
+Expires: 1 December 2024                                     30 May 2024
 
 
            Knowledge Graphs for YANG-based Network Management
@@ -103,7 +103,7 @@ Table of Contents
      10.1.  Normative References
      10.2.  Informative References
    Acknowledgments
-   Author's Address
+   Authors' Addresses
 
 1.  Introduction
 
@@ -144,9 +144,9 @@ Table of Contents
 
    module: ietf-service-assurance-device
 
-        augment /sain:subservices/sain:subservice/sain:parameter:
-          +--rw parameters
-             +--rw device    string
+     augment /sain:subservices/sain:subservice/sain:parameter:
+       +--rw parameters
+         +--rw device    string
 
    The extraction of this hidden knowledge from YANG models would enable
    the integration of YANG data silos at a conceptual level, regardless
@@ -350,6 +350,36 @@ Table of Contents
    graph collectors could also support the ingestion of YANG data from
    these kinds of message brokers, as shown in Fig X.
 
+   +------------------------------------------------------------+
+   |                  Knowledge Graph Database                  |
+   +------------------------------------------------------------+
+                                  ^
+                                  | (11) RDF data
+                                  |
+   +------------------------------------------------------------+
+   |            Knowledge Graph Construction Pipeline           |
+   +------------------------------------------------------------+
+(9) Get  |  ^                                   ^ (8) Validate serialized Message
+ Schema  |  |                                   | Against Schema on Consumer
+         |  |                                   |
+         |  |                                   |
+         |  | (10) Issue                        | (7) Serialize YANG-Push Message
+         v  | Schema             (5) Post       | annotated Schema ID
+   +--------------------+          Schema  +--------------------+
+   |       YANG         | <--------------  |  Data Collection   |
+   |  Schema Registry   | -------------->  | YANG-Push Receiver |
+   +--------------------+ (6) Issue        +--------------------+
+                          Schema ID     (3) Get |  ^ (2) Receive YANG-Push
+                                         Schema |  | Subscription Start Message
+                                                |  |   ^
+                                                |  |   |
+                                                |  |   | (4) Publish YANG-Push
+                                                v  |   | Message with Subscription ID
+   +--------------------+                  +--------------------+
+   |      Network       | (1) Subscribe    |   Network Node     |
+   |   Orchestration    | ---------------> | YANG-Push Publisher|
+   +--------------------+                  +--------------------+
+
    TBD: Fig X (Integration of KG construcion pipeline with YANG-kafka
    pipeline)
 
@@ -379,7 +409,7 @@ Table of Contents
    This is the final step of the knowledge graph creation.  This step
    receives as an input the RDF data generated in the Mapping step.  At
    this point, the RDF data can be sent to an RDF triple store like
-   Apache Fuseki [fuseki] for consumption via SPARQL.  But
+   Apache Jena Fuseki [fuseki] for consumption via SPARQL.  But
    alternatively, this step may transform the RDF data into an LPG
    structure and store the resulting data in a graph database like Neoj4
    [neo4j].  Similarly, the RDF data could also be transformed into the
@@ -705,12 +735,12 @@ Table of Contents
 
 10.2.  Informative References
 
-   [csvw]     "CSVW", n.d., <https://csvw.org>.
+   [csvw]     "CSVW - CSV on the Web", n.d., <https://csvw.org>.
 
-   [fuseki]   "Apache Fuseki", n.d.,
+   [fuseki]   "Apache Jena Fuseki", n.d.,
               <https://jena.apache.org/documentation/fuseki2/>.
 
-   [gnmi]     "gnmi spec", n.d.,
+   [gnmi]     "gRPC Network Management Interface (gNMI)", n.d.,
               <https://github.com/openconfig/reference/blob/master/rpc/
               gnmi/gnmi-specification.md>.
 
@@ -723,9 +753,10 @@ Table of Contents
               <https://datatracker.ietf.org/doc/html/draft-boucadair-
               nmop-rfc3535-20years-later-02>.
 
-   [jsonld]   "JSON-LD", n.d., <https://json-ld.org>.
+   [jsonld]   "JSON-LD - JSON for Linking Data", n.d.,
+              <https://json-ld.org>.
 
-   [neo4j]    "Neo4j", n.d.,
+   [neo4j]    "rdflib-neo4j - RDFLib Store backed by neo4j!", n.d.,
               <https://github.com/neo4j-labs/rdflib-neo4j>.
 
 Acknowledgments
@@ -734,8 +765,13 @@ Acknowledgments
    Europe projects aerOS (grant 101069732) and ROBUST-6G (grant
    101139068).
 
-Author's Address
+Authors' Addresses
 
    Ignacio Dominguez Martinez-Casanueva
-   Telefonica Innovacion Digital
+   Telefonica
    Email: ignacio.dominguezmartinez@telefonica.com
+
+
+   Lucia Cabanillas
+   Telefonica
+   Email: lucia.cabanillasrodriguez@telefonica.com
