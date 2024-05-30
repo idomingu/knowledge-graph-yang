@@ -4,8 +4,8 @@
 
 Network Management Operations                   I. D. Martinez-Casanueva
 Internet-Draft                             Telefonica Innovacion Digital
-Intended status: Informational                                7 May 2024
-Expires: 8 November 2024
+Intended status: Informational                               30 May 2024
+Expires: 1 December 2024
 
 
            Knowledge Graphs for YANG-based Network Management
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 November 2024.
+   This Internet-Draft will expire on 1 December 2024.
 
 Copyright Notice
 
@@ -85,11 +85,11 @@ Table of Contents
    2.  Conventions and Definitions
    3.  Background
      3.1.  Knowledge Graphs
-     3.2.  Graph standards
+     3.2.  Graph Standards
    4.  Knowledge Graph Construction
      4.1.  Ontology Development
-       4.1.1.  Automatic knowledge extraction from YANG models
-       4.1.2.  Standard development methodologies
+       4.1.1.  Automatic knowledge Extraction from YANG Models
+       4.1.2.  Standard Development Methodologies
      4.2.  Construction Pipeline
        4.2.1.  Ingestion
        4.2.2.  Mapping
@@ -112,7 +112,7 @@ Table of Contents
    network telemetry mechanisms [RFC9232].  These mechanisms range from
    legacy protocols like SNMP to the recent model-driven telemetry (MDT)
    based on the YANG language [RFC7950] and network management protocols
-   such as NETCONF [RFC6241] or gNMI [gnmi].
+   such as NETCONF [RFC6241], RESTCONF [RFC8040], or gNMI [gnmi].
 
    MDT in particular has drawn the attention of the network industry due
    to the benefits of modeling configuration and status data of the
@@ -131,13 +131,16 @@ Table of Contents
    Such amount and heterogeneity of YANG data models has hindered the
    collection and combination of network data for advanced network
    analytics.  The current landscape shows different YANG models
-   referencing the same concepts in a different way.  For example, ietf-
-   interface from the IETF and openconfig-interfaces from OpenConfig
-   follow different structures and syntax, but both reference the same
-   “interface” concept.  On the other, YANG models conveying semantic
-   relationships with other concepts via identifiers as shown in
-   [RFC9418], where the leaf “device” hints a relationship between the
-   “subservice “concept and the “device” concept.
+   referencing the same concepts in a different way.  For example, the
+   IETF "ietf-interface" and OpenConfig "openconfig-interfaces" follow
+   different structures and syntax, but both reference the same
+   "interface" concept.  On the other hand, YANG models conveying
+   semantic relationships with other concepts via identifiers as shown
+   in [RFC9418], where the leaf "device" hints a relationship between
+   the "subservice" concept and the "device" concept.  Refer to Sections
+   4.1 and 4.4 of [I-D.boucadair-nmop-rfc3535-20years-later] for a
+   discussion on the fragmented YANG ecosystem and the integration
+   complexity issues.
 
    module: ietf-service-assurance-device
 
@@ -195,7 +198,7 @@ Table of Contents
    knowledge graphs enable the integration of heterogenous data based
    their semantics is what knowledge graphs can deliver.
 
-3.2.  Graph standards
+3.2.  Graph Standards
 
    The RDF data model from the W3C Semantic Web has been considered the
    standard graph data model given its maturity.  For this reason, most
@@ -231,14 +234,14 @@ Table of Contents
    fully automated, depending on the characteristics of the data to be
    integrated in the knowledge graph (e.g., format, schema).
 
-4.1.1.  Automatic knowledge extraction from YANG models
+4.1.1.  Automatic knowledge Extraction from YANG Models
 
    The extraction of knowledge from YANG models can be automated, in
    particular, by analyzing YANG identities to generate controlled
    vocabularies and taxonomies.
 
-   RFC 7950 defines a YANG identity as “globally unique, abstract, and
-   untyped identity”, therefore, a relation between a YANG identity and
+   [RFC7950] defines a YANG identity as "globally unique, abstract, and
+   untyped identity", therefore, a relation between a YANG identity and
    a concept is straightforward.  Additionally, YANG identities can
    inherit from other YANG identities via the “base” statement.  These
    ideas align with the notion of a taxonomy, where concepts are
@@ -259,7 +262,7 @@ Table of Contents
 
    TBD: Include an example here or in the annex
 
-4.1.2.  Standard development methodologies
+4.1.2.  Standard Development Methodologies
 
    Automating the extraction of all the knowledge from YANG models is
    not possible, and therefore, manual intervention from domain experts
@@ -295,23 +298,25 @@ Table of Contents
    that follows the archetypical Extract-Transform-Load (ETL), wherein
    the raw data is collected from the source, transformed, and finally,
    stored for consumption.  In this sense, the knowledge graph creation
-   can be split into multiple steps as depicted in Fig X.
+   can be split into multiple steps as depicted in Figure 1.
 
-   +-----------+       +---------+       +-----------------+
-   |           |       |         |       |                 |
-   | Ingestion +------>| Mapping +------>| Materialization |
-   |           | Raw   |         | RDF   |                 |
-   +-----------+ data  +---------+ data  +--------+--------+
-         ^      (YANG)                            |
-    Raw  |                                        | RDF
-    data |                                        | data
-   (YANG)|                                        |
-         |                                        v
-   +-----+----+                             +-----------+
-   |   Data   |                             | Knowledge |
-   |  Source  |                             |   Graph   |
-   | (device) |                             +-----------+
-   +----------+
+         +-----------+       +---------+       +-----------------+
+         |           |       |         |       |                 |
+         | Ingestion +------>| Mapping +------>| Materialization |
+         |           | Raw   |         | RDF   |                 |
+         +-----------+ data  +---------+ data  +--------+--------+
+               ^      (YANG)                            |
+          Raw  |                                        | RDF
+          data |                                        | data
+         (YANG)|                                        |
+               |                                        v
+         +-----+----+                             +-----------+
+         |   Data   |                             | Knowledge |
+         |  Source  |                             |   Graph   |
+         | (device) |                             +-----------+
+         +----------+
+
+                 Figure 1: Example of Construction Pipeline
 
    These steps are the following: ingestion, mapping, and
    materialization.
@@ -323,8 +328,8 @@ Table of Contents
    from the selected data source.  These collectors implement data
    access protocols which are specific to the technology and type of the
    data source.  When it comes to network management protocols based on
-   YANG, these protocols can be NETCONF [RFC6241], RESTCONF[RFC8040] and
-   gNMI[gnmi].
+   YANG, these protocols can be NETCONF [RFC6241], RESTCONF [RFC8040]
+   and gNMI[gnmi].
 
    Two main types of data sources are identified based on the techniques
    used to ingest the data, namely, batch and streaming.  In the case of
@@ -708,6 +713,15 @@ Table of Contents
    [gnmi]     "gnmi spec", n.d.,
               <https://github.com/openconfig/reference/blob/master/rpc/
               gnmi/gnmi-specification.md>.
+
+   [I-D.boucadair-nmop-rfc3535-20years-later]
+              Boucadair, M., Contreras, L. M., de Dios, O. G., Graf, T.,
+              and R. Rahman, "RFC 3535, 20 Years Later: An Update of
+              Operators Requirements on Network Management Protocols and
+              Modelling", Work in Progress, Internet-Draft, draft-
+              boucadair-nmop-rfc3535-20years-later-02, 19 March 2024,
+              <https://datatracker.ietf.org/doc/html/draft-boucadair-
+              nmop-rfc3535-20years-later-02>.
 
    [jsonld]   "JSON-LD", n.d., <https://json-ld.org>.
 
