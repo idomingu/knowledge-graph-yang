@@ -28,8 +28,13 @@ author:
 - initials: I. D.
   surname: Martinez-Casanueva
   fullname: Ignacio Dominguez Martinez-Casanueva
-  organization: Telefonica Innovacion Digital
+  organization: Telefonica
   email: ignacio.dominguezmartinez@telefonica.com
+- initials: L.
+  surname: Cabanillas
+  fullname: Lucia Cabanillas
+  organization: Telefonica
+  email: lucia.cabanillasrodriguez@telefonica.com
 
 normative:
   RFC3444:
@@ -54,21 +59,20 @@ normative:
 
 informative:
   csvw:
-    title: CSVW
+    title: CSVW - CSV on the Web
     target: https://csvw.org
   gnmi:
-    title: gnmi spec
+    title: gRPC Network Management Interface (gNMI)
     target: https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md
   fuseki:
-    title: Apache Fuseki
+    title: Apache Jena Fuseki
     target: https://jena.apache.org/documentation/fuseki2/
   jsonld:
-    title: JSON-LD
+    title: JSON-LD - JSON for Linking Data
     target: https://json-ld.org
   neo4j:
-    title: Neo4j
+    title: rdflib-neo4j - RDFLib Store backed by neo4j!
     target: https://github.com/neo4j-labs/rdflib-neo4j
-
 
 --- abstract
 
@@ -89,9 +93,9 @@ Such amount and heterogeneity of YANG data models has hindered the collection an
 ~~~
 module: ietf-service-assurance-device
 
-     augment /sain:subservices/sain:subservice/sain:parameter:
-       +--rw parameters
-          +--rw device    string
+  augment /sain:subservices/sain:subservice/sain:parameter:
+    +--rw parameters
+      +--rw device    string
 ~~~
 
 The extraction of this hidden knowledge from YANG models would enable the integration of YANG data silos at a conceptual level, regardless of the physical implementation (i.e., the YANG schema, syntax, and encoding format). In this regard, the knowledge graph is getting traction as promising technology that can link data silos based on common concepts like “device” that are captured in ontologies. Besides, by transforming the YANG data into a graph structure the relationships between data silos are represented as first class citizens in the graph instead of “foreign keys” where the relationship is made implicit. In the following, this document provides guidelines for building a knowledge graph for data sources based on the YANG language.
@@ -179,6 +183,39 @@ Two main types of data sources are identified based on the techniques used to in
 
 Regarding streaming data sources, the collector subscribes to the YANG-server to receives notifications of YANG data periodically or upon changes in the data source (e.g., a network device whose interface goes down). These subscriptions can be realized, either based on configurations or dynamically, using mechanisms like YANG Push{{RFC8641}}. But additionally, another common scenario is the use of message broker systems like Apache Kafka for decoupling the ingestion of streams of YANG data {{I-D.netana-nmop-yang-message-broker-integration}}. Hence, knowledge graph collectors could also support the ingestion of YANG data from these kinds of message brokers, as shown in Fig X.
 
+~~~
+   +------------------------------------------------------------+
+   |                  Knowledge Graph Database                  |
+   +------------------------------------------------------------+
+                                  ^
+                                  | (11) RDF data
+                                  |
+   +------------------------------------------------------------+
+   |            Knowledge Graph Construction Pipeline           |
+   +------------------------------------------------------------+
+(9) Get  |  ^                                   ^ (8) Validate serialized Message
+ Schema  |  |                                   | Against Schema on Consumer
+         |  |                                   |
+         |  |                                   |
+         |  | (10) Issue                        | (7) Serialize YANG-Push Message
+         v  | Schema             (5) Post       | annotated Schema ID
+   +--------------------+          Schema  +--------------------+
+   |       YANG         | <--------------  |  Data Collection   |
+   |  Schema Registry   | -------------->  | YANG-Push Receiver |
+   +--------------------+ (6) Issue        +--------------------+
+                          Schema ID     (3) Get |  ^ (2) Receive YANG-Push
+                                         Schema |  | Subscription Start Message
+                                                |  |   ^
+                                                |  |   |
+                                                |  |   | (4) Publish YANG-Push
+                                                v  |   | Message with Subscription ID
+   +--------------------+                  +--------------------+
+   |      Network       | (1) Subscribe    |   Network Node     |
+   |   Orchestration    | ---------------> | YANG-Push Publisher|
+   +--------------------+                  +--------------------+
+
+~~~
+
 TBD: Fig X (Integration of KG construcion pipeline with YANG-kafka pipeline)
 
 ### Mapping
@@ -189,7 +226,7 @@ RML is a declarative language that is currently being standardized within the W3
 
 ### Materialization
 
-This is the final step of the knowledge graph creation. This step receives as an input the RDF data generated in the Mapping step. At this point, the RDF data can be sent to an RDF triple store like Apache Fuseki {{fuseki}} for consumption via SPARQL. But alternatively, this step may transform the RDF data into an LPG structure and store the resulting data in a graph database like Neoj4 {{neo4j}}. Similarly, the RDF data could also be transformed into the ETSI NGSI-LD standard and stored in an NGSI-LD Context Broker.
+This is the final step of the knowledge graph creation. This step receives as an input the RDF data generated in the Mapping step. At this point, the RDF data can be sent to an RDF triple store like Apache Jena Fuseki {{fuseki}} for consumption via SPARQL. But alternatively, this step may transform the RDF data into an LPG structure and store the resulting data in a graph database like Neoj4 {{neo4j}}. Similarly, the RDF data could also be transformed into the ETSI NGSI-LD standard and stored in an NGSI-LD Context Broker.
 
 # Knowledge Graph Applications
 
