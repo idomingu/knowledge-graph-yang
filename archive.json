@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-05-30T01:04:18.106529+00:00",
+  "timestamp": "2024-06-02T01:08:39.848377+00:00",
   "repo": "idomingu/knowledge-graph-yang",
   "labels": [
     {
@@ -56,24 +56,26 @@
       "id": "PR_kwDOL1WQn85vv6HQ",
       "title": "Leverage/offload some issues already mentioned in other I-Ds",
       "url": "https://github.com/idomingu/knowledge-graph-yang/pull/1",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "boucadair",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-05-17T06:31:56Z",
-      "updatedAt": "2024-05-17T06:31:57Z",
+      "updatedAt": "2024-05-30T10:41:49Z",
       "baseRepository": "idomingu/knowledge-graph-yang",
       "baseRefName": "main",
       "baseRefOid": "b734cf809387c7b07a99359fb58cbca3e80e3fe0",
       "headRepository": "boucadair/knowledge-graph-yang",
       "headRefName": "patch-1",
       "headRefOid": "296a60f725788f3d061fe9c0415a6787bb6f9f4e",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-05-30T10:41:49Z",
+      "mergedAt": "2024-05-30T10:41:49Z",
+      "mergedBy": "idomingu",
+      "mergeCommit": {
+        "oid": "754e711b8203b8acb831ee4596445c144a93e5ee"
+      },
       "comments": [],
       "reviews": []
     }
