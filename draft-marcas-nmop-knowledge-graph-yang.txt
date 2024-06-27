@@ -83,8 +83,7 @@ Table of Contents
 
    1.  Introduction
    2.  Terminology
-     2.1.  Acronyms and Abbreviations
-     2.2.  Definitions
+     2.1.  Acronyms
    3.  Conventions and Definitions
    4.  A Bief Introduction to Knowledge Graphs
      4.1.  What is a Knowledge Graph?
@@ -170,27 +169,31 @@ Table of Contents
 
 2.  Terminology
 
-2.1.  Acronyms and Abbreviations
+2.1.  Acronyms
 
-   IBN: Intent-Based Networking
+   CQ: Competency Question
 
-   AI: Artificial Intelligence
+   KG: Knowledge Graph
 
-   CI/CD: Continuous Integration/Continuous Delivery
+   KGC: Knowledge Graph Construction
 
-   ML: Machine Learning
+   LOT: Linked Open Terms
 
-   OAM: Operations, Administration, and Maintenance
+   LPG: Labelled Property Graph
 
-2.2.  Definitions
+   OWL: Web Ontology Language
 
-   This document makes use of the following terms:
+   RDF: Resource Description Framework
 
-   Digital Twin:  Digital counterpart of a physical system (twin) that
-      captures its attributes, behavior, and interactions and is
-      (continually) updated with the latter's performance, maintenance,
-      and health status data throughout the physical system's life
-      cycle.
+   RDFS: RDF Schema
+
+   RML: RDF Mapping Language
+
+   SAREF: Smart Applications REFerence
+
+   SHACL: Shapes Constraint Language
+
+   W3C: World Wide Web Consortium
 
 3.  Conventions and Definitions
 
@@ -246,8 +249,8 @@ Table of Contents
    investigating evolving RDF to facilitate the representation of
    statement about statements.
 
-   Similarly, the ETSI ISG CIM defined the NGSI-LD standard, which
-   builds upon two:
+   Similarly, the ETSI ISG CIM defined the NGSI-LD standard
+   [ETSI-GS-CIM-009], which builds upon two:
 
    *  An NGSI-LD information model which derives from the Labeled
       Property Graph (LPG) model and grounds on the RDF for a semantic
@@ -672,6 +675,11 @@ Table of Contents
 11.2.  Informative References
 
    [CSVW]     "CSVW - CSV on the Web", n.d., <https://csvw.org>.
+
+   [ETSI-GS-CIM-009]
+              "Context Information Management (CIM); NGSI-LD API", March
+              2024, <https://www.etsi.org/deliver/etsi_gs/
+              CIM/001_099/009/01.08.01_60/gs_CIM009v010801p.pdf>.
 
    [Fuseki]   "Apache Jena Fuseki", n.d.,
               <https://jena.apache.org/documentation/fuseki2/>.
