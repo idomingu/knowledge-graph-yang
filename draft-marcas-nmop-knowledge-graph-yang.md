@@ -284,4 +284,6 @@ This document has no IANA actions.
 
 # Acknowledgments
 {:numbered="false"}
-This document is based on work partially funded by the EU Horizon Europe projects aerOS (grant 101069732) and ROBUST-6G (grant 101139068).
+This document is based on work partially funded by the EU Horizon Europe projects aerOS (grant agreement no. 101069732) and ROBUST-6G (grant agreement no. 101139068).
+
+The authors would like to thank Mohamed Boucadair and Benoit Claise for their review and valuable comments.
