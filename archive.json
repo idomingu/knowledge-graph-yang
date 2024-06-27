@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-25T01:05:46.600753+00:00",
+  "timestamp": "2024-06-27T01:06:06.248424+00:00",
   "repo": "idomingu/knowledge-graph-yang",
   "labels": [
     {
@@ -76,6 +76,32 @@
       "mergeCommit": {
         "oid": "754e711b8203b8acb831ee4596445c144a93e5ee"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOL1WQn85zfUse",
+      "title": "A quick review",
+      "url": "https://github.com/idomingu/knowledge-graph-yang/pull/2",
+      "state": "OPEN",
+      "author": "boucadair",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-06-25T12:02:48Z",
+      "updatedAt": "2024-06-25T12:02:49Z",
+      "baseRepository": "idomingu/knowledge-graph-yang",
+      "baseRefName": "main",
+      "baseRefOid": "947c7d66327336135f81ed09b4b8b1ebf1e92326",
+      "headRepository": "boucadair/knowledge-graph-yang",
+      "headRefName": "patch-2",
+      "headRefOid": "2ebd3e6a8f11b8fc0f0d91fb5804245a1a4aa4f2",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
