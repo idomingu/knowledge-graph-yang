@@ -40,21 +40,63 @@ normative:
   RFC7950:
 
 informative:
-  csvw:
+  CSVW:
     title: CSVW - CSV on the Web
     target: https://csvw.org
-  gnmi:
+  GNMI:
     title: gRPC Network Management Interface (gNMI)
     target: https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md
-  fuseki:
+  Fuseki:
     title: Apache Jena Fuseki
     target: https://jena.apache.org/documentation/fuseki2/
-  jsonld:
+  JSON-LD:
     title: JSON-LD - JSON for Linking Data
     target: https://json-ld.org
-  neo4j:
-    title: rdflib-neo4j - RDFLib Store backed by neo4j!
+  Poveda-Villalon2022:
+    title: "LOT: An industrial oriented ontology engineering framework"
+    author:
+      organization: Engineering Applications of Artificial Intelligence
+    target: https://doi.org/10.1016/j.engappai.2022.104755
+    date: May 2022
+  Iglesias-Molina2023:
+    title: "The RML Ontology: A Community-Driven Modular Redesign After a Decade of Experience in Mapping Heterogeneous Data to RDF"
+    autor:
+      organization: The Semantic Web – ISWC 2023
+    target: https://doi.org/10.1007/978-3-031-47243-5_9
+    date: October 2023
+  Neo4j:
+    title: rdflib-neo4j - RDFLib Store backed by neo4j
     target: https://github.com/neo4j-labs/rdflib-neo4j
+  OWL:
+    title: "OWL 2 Web Ontology Language Document Overview (Second Edition)"
+    author:
+      organization: W3C
+    target: https://www.w3.org/TR/owl2-overview/
+  RDF:
+    title: "Resource Description Framework (RDF): Concepts and Abstract Syntax"
+    author:
+      organization: W3C
+    target: https://www.w3.org/TR/rdf11-concepts/
+  RDFS:
+    title: "RDF Schema 1.1"
+    author:
+      organization: W3C
+    target: https://www.w3.org/TR/rdf-schema/
+  SHACL:
+    title: "Shapes Constraint Language (SHACL)"
+    author:
+      organization: W3C
+    target: https://www.w3.org/TR/shacl/
+  SPARQL:
+    title: "SPARQL 1.1 Query Language"
+    author:
+      organization: W3C
+    target: https://www.w3.org/TR/sparql11-query/
+  W3C-KGC:
+    title: Knowledge Graph Construction Community Group
+    author:
+      organization: W3C
+    target: https://www.w3.org/community/kg-construct/
 
 --- abstract
 
@@ -66,7 +108,7 @@ This document introduces the knowledge graph concept as a solution to this data 
 
 # Introduction
 
-The size and complexity of networks keeps increasing, thus the path towards enabling an autonomous network requires the combination of network telemetry mechanisms {{?RFC9232}}. These mechanisms range from legacy protocols like SNMP to the recent model-driven telemetry (MDT) based on the YANG language {{!RFC7950}} and network management protocols such as NETCONF {{?RFC6241}}, RESTCONF {{?RFC8040}}, or gNMI {{gnmi}}.
+The size and complexity of networks keeps increasing, thus the path towards enabling an autonomous network requires the combination of network telemetry mechanisms {{?RFC9232}}. These mechanisms range from legacy protocols like SNMP to the recent model-driven telemetry (MDT) based on the YANG language {{!RFC7950}} and network management protocols such as NETCONF {{?RFC6241}}, RESTCONF {{?RFC8040}}, or gNMI {{GNMI}}.
 
 MDT, in particular, has drawn the attention of the network industry owing to the benefits of modeling configuration and status data of the network with a formal data modeling language like YANG. However, since the inception of YANG, the network industry has experienced the massive creation of YANG data models developed by vendors, standards developing organizations (e.g., IETF), and consortia (e.g., OpenConfig). In turn, these data models target different abstraction layers of the network, namely, network elements, and network service {{?RFC8199}}. Additionally, YANG data models may augment (or deviate from) other models to define new features (or remove or adjust existing ones) depending on the implementation. In summary, this trend has resulted into a wide variety of independent YANG data models, hence, the creation of data silos in the network.
 
@@ -98,7 +140,7 @@ By mapping data models (i.e., physical level) with the concepts represented in o
 
 ## Key Graph Standards
 
-The Resource Description Framework (RDF) data model from the W3C Semantic Web has been considered as the standard graph data model given its maturity. For that reason, most of the knowledge graph implementations have relied upon the RDF standard and other standards from the Semantic Web like RDF Schema (RDFS), Ontology Language (OWL) , Shapes Constraint Language (SHACL), and SPARQL.
+The Resource Description Framework (RDF) {{RDF}} data model from the W3C Semantic Web has been considered as the standard graph data model given its maturity. For that reason, most of the knowledge graph implementations have relied upon the RDF standard and other standards from the Semantic Web like RDF Schema (RDFS) {{RDFS}}, Ontology Language (OWL) {{OWL}}, Shapes Constraint Language (SHACL) {{SHACL}}, and SPARQL {{SPARQL}}.
 
 However, the late success of graph databases like Neo4j have proved the Labelled Property Graph (LPG) data model as an alternative for implementing knowledge graphs. Aiming to bridge the gap between these two graph data models, the W3C RDF-Star working group is investigating evolving RDF to facilitate the representation of statement about statements.
 
@@ -127,7 +169,7 @@ To support the creation of knowledge structures like taxonomies or thesauri, the
 
 ### Standard Development Methodologies
 
-Automating the extraction of all the knowledge from YANG models is impossible, and therefore, manual intervention from domain experts is required. To ease this process, a recommended practice is to develop the ontology by following a standard methodology like Linked Open Terms (LOT).
+Automating the extraction of all the knowledge from YANG models is impossible, and therefore, manual intervention from domain experts is required. To ease this process, a recommended practice is to develop the ontology by following a standard methodology like Linked Open Terms (LOT) {{Poveda-Villalon2022}}.
 
 LOT is an ontology development methodology that adopts best practices from agile software development. The methodology has been widely used in European projects as well as in the creation of the ETSI SAREF ontology and its extensions. Precisely, with SAREF Ontology ETSI tackled a similar problem in the scope of IoT, where there is a heterogeneous variety of standard data models and protocols. The methodology iterates over a workflow of the following four activities:
 
@@ -167,7 +209,7 @@ These steps are the following: ingestion, mapping, and materialization.
 
 ### Ingestion
 
-Represents the first step in the creation of the knowledge graph. This step is realized by means of collectors that ingest raw data from the selected data source. These collectors implement data access protocols which are specific to the technology and type of the data source. When it comes to network management protocols based on YANG, these protocols can be NETCONF {{?RFC6241}}, RESTCONF {{?RFC8040}} and gNMI{{gnmi}}.
+Represents the first step in the creation of the knowledge graph. This step is realized by means of collectors that ingest raw data from the selected data source. These collectors implement data access protocols which are specific to the technology and type of the data source. When it comes to network management protocols based on YANG, these protocols can be NETCONF {{?RFC6241}}, RESTCONF {{?RFC8040}} and gNMI {{GNMI}}.
 
 Two main types of data sources are identified based on the techniques used to ingest the data, namely, batch and streaming. In the case of batch data sources data are pulled (once or periodically) from the data source. This could be represented by queries sent to a YANG server like an SDN controller to fetch the network topology {{?RFC8345}}.
 
@@ -210,13 +252,13 @@ Regarding streaming data sources, the collector subscribes to a YANG server to r
 
 ### Mapping
 
-This second step consists at receiving the raw data data from the Ingestion step. Here, the raw data is mapped to the concepts capture in one or more ontologies. By applying these mapping rules, the raw data is semantically annotated and transformed into RDF data. These mappings can be declared using declarative languages like RDF Mapping Language (RML).
+This second step consists at receiving the raw data data from the Ingestion step. Here, the raw data is mapped to the concepts capture in one or more ontologies. By applying these mapping rules, the raw data is semantically annotated and transformed into RDF data. These mappings can be declared using declarative languages like RDF Mapping Language (RML) {{Iglesias-Molina2023}}.
 
-RML is a declarative language that is currently being standardized within the W3C KGC that allows for defining mappings rules for raw data encoded in semi-structured formats like XML or JSON. The benefits of using a declarative language like RML are twofold: i) the engine that implements the RML rules is generic, thus the mappings rules are decoupled from the code; ii) the explicit representation of mapping and transformation rules as part of the knowledge graph provides data lineage insights that can greatly improve data quality and the troubleshooting of data pipelines. RML is making progress towards becoming a standard, but support of additional YANG encoding formats like CBOR {{?RFC8949}} or Protobuf remains a challenge.
+RML is a declarative language that is currently being standardized within the W3C Knowledge Graph Construction Community group {{W3C-KGC}} that allows for defining mappings rules for raw data encoded in semi-structured formats like XML or JSON. The benefits of using a declarative language like RML are twofold: i) the engine that implements the RML rules is generic, thus the mappings rules are decoupled from the code; ii) the explicit representation of mapping and transformation rules as part of the knowledge graph provides data lineage insights that can greatly improve data quality and the troubleshooting of data pipelines. RML is making progress towards becoming a standard, but support of additional YANG encoding formats like CBOR {{?RFC8949}} or Protobuf remains a challenge.
 
 ### Materialization
 
-This is the final step of the knowledge graph creation. This step receives as an input the RDF data generated in the Mapping step. At this point, the RDF data can be sent to an RDF triple store like Apache Jena Fuseki {{fuseki}} for consumption via SPARQL. But alternatively, this step may transform the RDF data into an LPG structure and store the resulting data in a graph database like Neoj4 {{neo4j}}. Similarly, the RDF data could also be transformed into the ETSI NGSI-LD standard and stored in an NGSI-LD Context Broker.
+This is the final step of the knowledge graph creation. This step receives as an input the RDF data generated in the Mapping step. At this point, the RDF data can be sent to an RDF triple store like Apache Jena Fuseki {{Fuseki}} for consumption via SPARQL. But alternatively, this step may transform the RDF data into an LPG structure and store the resulting data in a graph database like Neoj4 {{Neo4j}}. Similarly, the RDF data could also be transformed into the ETSI NGSI-LD standard and stored in an NGSI-LD Context Broker.
 
 # Knowledge Graph Applications
 
@@ -241,7 +283,7 @@ Contextualized telemetry data:
 # Challenges
 
 Ontology development:
-: Time-consuming task that requires skills in knowledge management and conceptual modeling. Additionally, ontology developers should maintain a tight coordination with domain owners and ontology users. Following a standard methodology like LOT provides guidance in the process but still, the development of the ontology requires manual work. Tools that can produce or bootstrap ontologies from existing YANG data models in a semi-automatic, or even automatic, are desirable. In this sense, the future release of the YANG language could be extended to facilitate this task at design time. YANG data models could include explicit semantics in the data models, in the same way that JSON-LD {{jsonld}} or CSVW {{csvw}} include metadata indicating which concepts from concepts are referenced by the data. In the current version of YANG, this could be achieved at runtime using the YANG Metadata extension {{?RFC7952}}. With this extension, YANG data models could include additional metadata to indicate the ontology concept a YANG data node is referring to, though this approach only works at runtime, and additionally, it would require augmenting existing YANG data models.
+: Time-consuming task that requires skills in knowledge management and conceptual modeling. Additionally, ontology developers should maintain a tight coordination with domain owners and ontology users. Following a standard methodology like LOT provides guidance in the process but still, the development of the ontology requires manual work. Tools that can produce or bootstrap ontologies from existing YANG data models in a semi-automatic, or even automatic, are desirable. In this sense, the future release of the YANG language could be extended to facilitate this task at design time. YANG data models could include explicit semantics in the data models, in the same way that JSON-LD {{JSON-LD}} or CSVW {{CSVW}} include metadata indicating which concepts from concepts are referenced by the data. In the current version of YANG, this could be achieved at runtime using the YANG Metadata extension {{?RFC7952}}. With this extension, YANG data models could include additional metadata to indicate the ontology concept a YANG data node is referring to, though this approach only works at runtime, and additionally, it would require augmenting existing YANG data models.
 
 Pipeline performance:
 : To integrate the raw data from the original source into the knowledge graph entails several steps as described before. This steps add an extra latency before having the data stored in the knowledge graph for consumption. This latency can be an important limitation for real-time analytics use cases.
