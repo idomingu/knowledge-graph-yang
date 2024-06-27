@@ -43,6 +43,10 @@ informative:
   CSVW:
     title: CSVW - CSV on the Web
     target: https://csvw.org
+  ETSI-GS-CIM-009:
+    title: "Context Information Management (CIM); NGSI-LD API"
+    target: https://www.etsi.org/deliver/etsi_gs/CIM/001_099/009/01.08.01_60/gs_CIM009v010801p.pdf
+    date: March 2024
   GNMI:
     title: gRPC Network Management Interface (gNMI)
     target: https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md
@@ -142,27 +146,31 @@ The extraction of this hidden knowledge from YANG models would enable the integr
 
 # Terminology
 
-## Acronyms and Abbreviations
+## Acronyms
 
-IBN:  Intent-Based Networking
+CQ: Competency Question
 
-AI:   Artificial Intelligence
+KG: Knowledge Graph
 
-CI/CD:  Continuous Integration/Continuous Delivery
+KGC: Knowledge Graph Construction
 
-ML:  Machine Learning
+LOT: Linked Open Terms
 
-OAM:  Operations, Administration, and Maintenance
+LPG: Labelled Property Graph
 
-## Definitions
+OWL: Web Ontology Language
 
-This document makes use of the following terms:
+RDF: Resource Description Framework
 
-Digital Twin:
-: Digital counterpart of a physical system (twin) that captures
-its attributes, behavior, and interactions and is (continually)
-updated with the latter's performance, maintenance, and health
-status data throughout the physical system's life cycle.
+RDFS: RDF Schema
+
+RML: RDF Mapping Language
+
+SAREF: Smart Applications REFerence
+
+SHACL: Shapes Constraint Language
+
+W3C: World Wide Web Consortium
 
 # Conventions and Definitions
 
@@ -184,7 +192,7 @@ The Resource Description Framework (RDF) {{RDF}} data model from the W3C Semanti
 
 However, the late success of graph databases like Neo4j have proved the Labelled Property Graph (LPG) data model as an alternative for implementing knowledge graphs. Aiming to bridge the gap between these two graph data models, the W3C RDF-Star working group is investigating evolving RDF to facilitate the representation of statement about statements.
 
-Similarly, the ETSI ISG CIM defined the NGSI-LD standard, which builds upon two:
+Similarly, the ETSI ISG CIM defined the NGSI-LD standard {{ETSI-GS-CIM-009}}, which builds upon two:
 
 * An NGSI-LD information model which derives from the Labeled Property Graph (LPG) model and grounds on the RDF for a semantic annotation of the data in the graph.
 * The NGSI-LD API, which defines a REST API for building and interacting with the graph.
