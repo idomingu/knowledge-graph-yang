@@ -55,6 +55,11 @@ informative:
       organization: W3C
     target: https://www.w3.org/TR/json-ld11/
     date: July 2020
+  oc-interfaces:
+    title: openconfig-interfaces modules
+    author:
+      organization: OpenConfig
+    target: https://openconfig.net/projects/models/schemadocs/yangdoc/openconfig-interfaces.html
   Poveda-Villalon2022:
     title: "LOT: An industrial oriented ontology engineering framework"
     author:
@@ -118,9 +123,11 @@ This document introduces the knowledge graph concept as a solution to this data 
 
 The size and complexity of networks keeps increasing, thus the path towards enabling an autonomous network requires the combination of network telemetry mechanisms {{?RFC9232}}. These mechanisms range from legacy protocols like SNMP to the recent model-driven telemetry (MDT) based on the YANG language {{!RFC7950}} and network management protocols such as NETCONF {{?RFC6241}}, RESTCONF {{?RFC8040}}, or gNMI {{GNMI}}.
 
-MDT, in particular, has drawn the attention of the network industry owing to the benefits of modeling configuration and status data of the network with a formal data modeling language like YANG. However, since the inception of YANG, the network industry has experienced the massive creation of YANG data models developed by vendors, standards developing organizations (e.g., IETF), and consortia (e.g., OpenConfig). In turn, these data models target different abstraction layers of the network, namely, network elements, and network service {{?RFC8199}}. Additionally, YANG data models may augment (or deviate from) other models to define new features (or remove or adjust existing ones) depending on the implementation. In summary, this trend has resulted into a wide variety of independent YANG data models, hence, the creation of data silos in the network.
+MDT, in particular, has drawn the attention of the network industry owing to the benefits of modeling configuration and status data of the network with a formal data modeling language like YANG. However, since the inception of YANG, the network industry has experienced the massive creation of YANG data models developed by vendors, standards developing organizations (e.g., IETF), and consortia (e.g., OpenConfig). In turn, these data models target different abstraction layers of the network, namely, network elements, and network service {{?RFC8199}}. Additionally, YANG data models may augment (or deviate from) other models to define new features (or remove or adjust existing ones) depending on the implementation. In summary, this trend has resulted into a wide variety of independent YANG data models, hence, the creation of data silos in the network. Refer to Sections 4.1 and 4.4 of {{?I-D.boucadair-nmop-rfc3535-20years-later}} for a discussion on the fragmented YANG ecosystem and the integration complexity issues.
 
-Such amount and heterogeneity of YANG data models has hindered the collection and combination of network data for advanced network analytics. The current landscape shows different YANG models referencing the same concepts in a different way. For example, the IETF "ietf-interface" and OpenConfig "openconfig-interfaces" follow different structures and syntax, but both reference the same "interface" concept. On the other hand, YANG models conveying semantic relationships with other concepts via identifiers as shown in {{?RFC9418}}, where the leaf "device" hints a relationship between the "subservice" concept and the "device" concept. Refer to Sections 4.1 and 4.4 of {{?I-D.boucadair-nmop-rfc3535-20years-later}} for a discussion on the fragmented YANG ecosystem and the integration complexity issues.
+Such amount and heterogeneity of YANG data models has hindered the collection and combination of network data for advanced network analytics. The current landscape shows different YANG models referencing the same concepts in a different way. For example, the IETF "ietf-interface" {{?RFC8343}} and OpenConfig "openconfig-interfaces" {{oc-interfaces}} follow different structures and syntax, but both reference the same "interface" concept.
+
+Similarly, there are YANG models, like Service Assurance {{?RFC9418}}, that convey semantic relationships with other concepts via identifiers. {{ex-sain-device-tree}} depicts the YANG tree diagram {{?RFC8340}} for a subservice augmentation where the leaf "device" hints a relationship between the "subservice" concept and the "device" concept.
 
 ~~~
 module: ietf-service-assurance-device
@@ -129,8 +136,33 @@ module: ietf-service-assurance-device
     +--rw parameters
       +--rw device    string
 ~~~
+{: #ex-sain-device-tree title="YANG tree diagram of a subservice augmentation." artwork-align="center"}
 
 The extraction of this hidden knowledge from YANG models would enable the integration of YANG data silos at a conceptual level, regardless of the physical implementation (i.e., the YANG schema, syntax, and encoding format). In this regard, the knowledge graph is a promising technology that can link data silos based on common concepts like "device" that are captured in ontologies. Besides, by transforming the YANG data into a graph structure the relationships between data silos are represented as first class citizens in the graph instead of "foreign keys" where the relationship is made implicit. This document provides guidelines for building a knowledge graph for data sources based on the YANG language.
+
+# Terminology
+
+## Acronyms and Abbreviations
+
+IBN:  Intent-Based Networking
+
+AI:   Artificial Intelligence
+
+CI/CD:  Continuous Integration/Continuous Delivery
+
+ML:  Machine Learning
+
+OAM:  Operations, Administration, and Maintenance
+
+## Definitions
+
+This document makes use of the following terms:
+
+Digital Twin:
+: Digital counterpart of a physical system (twin) that captures
+its attributes, behavior, and interactions and is (continually)
+updated with the latter's performance, maintenance, and health
+status data throughout the physical system's life cycle.
 
 # Conventions and Definitions
 
