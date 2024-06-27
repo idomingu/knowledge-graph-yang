@@ -82,26 +82,29 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-   2.  Conventions and Definitions
-   3.  A Bief Introduction to Knowledge Graphs
-     3.1.  What is a Knowledge Graph?
-     3.2.  Key Graph Standards
-   4.  Knowledge Graph Construction
-     4.1.  Ontology Development
-       4.1.1.  Automatic knowledge Extraction from YANG Models
-       4.1.2.  Standard Development Methodologies
-     4.2.  Construction Pipeline
-       4.2.1.  Ingestion
-       4.2.2.  Mapping
-       4.2.3.  Materialization
-   5.  Knowledge Graph Applications
-   6.  Challenges
-   7.  Security Considerations
-   8.  IANA Considerations
-   9.  Open Issues
-   10. References
-     10.1.  Normative References
-     10.2.  Informative References
+   2.  Terminology
+     2.1.  Acronyms and Abbreviations
+     2.2.  Definitions
+   3.  Conventions and Definitions
+   4.  A Bief Introduction to Knowledge Graphs
+     4.1.  What is a Knowledge Graph?
+     4.2.  Key Graph Standards
+   5.  Knowledge Graph Construction
+     5.1.  Ontology Development
+       5.1.1.  Automatic knowledge Extraction from YANG Models
+       5.1.2.  Standard Development Methodologies
+     5.2.  Construction Pipeline
+       5.2.1.  Ingestion
+       5.2.2.  Mapping
+       5.2.3.  Materialization
+   6.  Knowledge Graph Applications
+   7.  Challenges
+   8.  Security Considerations
+   9.  IANA Considerations
+   10. Open Issues
+   11. References
+     11.1.  Normative References
+     11.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -112,7 +115,7 @@ Table of Contents
    network telemetry mechanisms [RFC9232].  These mechanisms range from
    legacy protocols like SNMP to the recent model-driven telemetry (MDT)
    based on the YANG language [RFC7950] and network management protocols
-   such as NETCONF [RFC6241], RESTCONF [RFC8040], or gNMI [gnmi].
+   such as NETCONF [RFC6241], RESTCONF [RFC8040], or gNMI [GNMI].
 
    MDT, in particular, has drawn the attention of the network industry
    owing to the benefits of modeling configuration and status data of
@@ -126,27 +129,32 @@ Table of Contents
    from) other models to define new features (or remove or adjust
    existing ones) depending on the implementation.  In summary, this
    trend has resulted into a wide variety of independent YANG data
-   models, hence, the creation of data silos in the network.
+   models, hence, the creation of data silos in the network.  Refer to
+   Sections 4.1 and 4.4 of [I-D.boucadair-nmop-rfc3535-20years-later]
+   for a discussion on the fragmented YANG ecosystem and the integration
+   complexity issues.
 
    Such amount and heterogeneity of YANG data models has hindered the
    collection and combination of network data for advanced network
    analytics.  The current landscape shows different YANG models
    referencing the same concepts in a different way.  For example, the
-   IETF "ietf-interface" and OpenConfig "openconfig-interfaces" follow
-   different structures and syntax, but both reference the same
-   "interface" concept.  On the other hand, YANG models conveying
-   semantic relationships with other concepts via identifiers as shown
-   in [RFC9418], where the leaf "device" hints a relationship between
-   the "subservice" concept and the "device" concept.  Refer to Sections
-   4.1 and 4.4 of [I-D.boucadair-nmop-rfc3535-20years-later] for a
-   discussion on the fragmented YANG ecosystem and the integration
-   complexity issues.
+   IETF "ietf-interface" [RFC8343] and OpenConfig "openconfig-
+   interfaces" [oc-interfaces] follow different structures and syntax,
+   but both reference the same "interface" concept.
 
-   module: ietf-service-assurance-device
+   Similarly, there are YANG models, like Service Assurance [RFC9418],
+   that convey semantic relationships with other concepts via
+   identifiers.  Figure 1 depicts the YANG tree diagram [RFC8340] for a
+   subservice augmentation where the leaf "device" hints a relationship
+   between the "subservice" concept and the "device" concept.
 
-     augment /sain:subservices/sain:subservice/sain:parameter:
-       +--rw parameters
-         +--rw device    string
+        module: ietf-service-assurance-device
+
+          augment /sain:subservices/sain:subservice/sain:parameter:
+            +--rw parameters
+              +--rw device    string
+
+         Figure 1: YANG tree diagram of a subservice augmentation.
 
    The extraction of this hidden knowledge from YANG models would enable
    the integration of YANG data silos at a conceptual level, regardless
@@ -160,7 +168,31 @@ Table of Contents
    document provides guidelines for building a knowledge graph for data
    sources based on the YANG language.
 
-2.  Conventions and Definitions
+2.  Terminology
+
+2.1.  Acronyms and Abbreviations
+
+   IBN: Intent-Based Networking
+
+   AI: Artificial Intelligence
+
+   CI/CD: Continuous Integration/Continuous Delivery
+
+   ML: Machine Learning
+
+   OAM: Operations, Administration, and Maintenance
+
+2.2.  Definitions
+
+   This document makes use of the following terms:
+
+   Digital Twin:  Digital counterpart of a physical system (twin) that
+      captures its attributes, behavior, and interactions and is
+      (continually) updated with the latter's performance, maintenance,
+      and health status data throughout the physical system's life
+      cycle.
+
+3.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -168,9 +200,9 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  A Bief Introduction to Knowledge Graphs
+4.  A Bief Introduction to Knowledge Graphs
 
-3.1.  What is a Knowledge Graph?
+4.1.  What is a Knowledge Graph?
 
    A knowledge graph contains a collection of facts alongside what know
    we about them and represents following a graph structure.  Knowledge
@@ -197,14 +229,15 @@ Table of Contents
    knowledge graphs enable the integration of heterogenous data based
    their semantics is what knowledge graphs can deliver.
 
-3.2.  Key Graph Standards
+4.2.  Key Graph Standards
 
-   The Resource Description Framework (RDF) data model from the W3C
-   Semantic Web has been considered as the standard graph data model
+   The Resource Description Framework (RDF) [RDF] data model from the
+   W3C Semantic Web has been considered as the standard graph data model
    given its maturity.  For that reason, most of the knowledge graph
    implementations have relied upon the RDF standard and other standards
-   from the Semantic Web like RDF Schema (RDFS), Ontology Language (OWL)
-   , Shapes Constraint Language (SHACL), and SPARQL.
+   from the Semantic Web like RDF Schema (RDFS) [RDFS], Ontology
+   Language (OWL) [OWL], Shapes Constraint Language (SHACL) [SHACL], and
+   SPARQL [SPARQL].
 
    However, the late success of graph databases like Neo4j have proved
    the Labelled Property Graph (LPG) data model as an alternative for
@@ -223,13 +256,13 @@ Table of Contents
    *  The NGSI-LD API, which defines a REST API for building and
       interacting with the graph.
 
-4.  Knowledge Graph Construction
+5.  Knowledge Graph Construction
 
    The construction of a knowledge graph can be divided into two main
-   activities: ontology development (Section 4.1) and knowledge graph
-   construction pipeline (Section 4.2).
+   activities: ontology development (Section 5.1) and knowledge graph
+   construction pipeline (Section 5.2).
 
-4.1.  Ontology Development
+5.1.  Ontology Development
 
    Ontologies provide the formal representation of the conceptual models
    that capture the semantics of data, and building on this, the
@@ -238,7 +271,7 @@ Table of Contents
    fully automated, depending on the characteristics of the data to be
    integrated in the knowledge graph (e.g., format or schema).
 
-4.1.1.  Automatic knowledge Extraction from YANG Models
+5.1.1.  Automatic knowledge Extraction from YANG Models
 
    The extraction of knowledge from YANG models can be automated, in
    particular, by analyzing YANG identities to generate controlled
@@ -266,13 +299,13 @@ Table of Contents
 
       TBD: Include an example here or in the annex
 
-4.1.2.  Standard Development Methodologies
+5.1.2.  Standard Development Methodologies
 
    Automating the extraction of all the knowledge from YANG models is
    impossible, and therefore, manual intervention from domain experts is
    required.  To ease this process, a recommended practice is to develop
    the ontology by following a standard methodology like Linked Open
-   Terms (LOT).
+   Terms (LOT) [Poveda-Villalon2022].
 
    LOT is an ontology development methodology that adopts best practices
    from agile software development.  The methodology has been widely
@@ -303,13 +336,13 @@ Table of Contents
       TBD: Include sample requirements of network topology YANG model
       (RFC 8345).
 
-4.2.  Construction Pipeline
+5.2.  Construction Pipeline
 
    The construction of a knowledge graph is supported by a data pipeline
    that follows the archetypical Extract-Transform-Load (ETL), wherein
    the raw data is collected from the source(s), transformed, and
    finally, stored for consumption.  The knowledge graph creation can
-   thus be split into multiple steps as depicted in Figure 1.
+   thus be split into multiple steps as depicted in Figure 2.
 
          +-----------+       +---------+       +-----------------+
          |           |       |         |       |                 |
@@ -327,12 +360,12 @@ Table of Contents
          | (device) |                             +-----------+
          +----------+
 
-                Figure 1: Example of a Construction Pipeline
+                Figure 2: Example of a Construction Pipeline
 
    These steps are the following: ingestion, mapping, and
    materialization.
 
-4.2.1.  Ingestion
+5.2.1.  Ingestion
 
    Represents the first step in the creation of the knowledge graph.
    This step is realized by means of collectors that ingest raw data
@@ -340,7 +373,7 @@ Table of Contents
    access protocols which are specific to the technology and type of the
    data source.  When it comes to network management protocols based on
    YANG, these protocols can be NETCONF [RFC6241], RESTCONF [RFC8040]
-   and gNMI[gnmi].
+   and gNMI [GNMI].
 
    Two main types of data sources are identified based on the techniques
    used to ingest the data, namely, batch and streaming.  In the case of
@@ -359,7 +392,7 @@ Table of Contents
    of streams of YANG data
    [I-D.netana-nmop-yang-message-broker-integration].  Hence, knowledge
    graph collectors could also support the ingestion of YANG data from
-   these kinds of message brokers, as shown in Figure 2.
+   these kinds of message brokers, as shown in Figure 3.
 
    +------------------------------------------------------------+
    |                  Knowledge Graph Database                  |
@@ -391,42 +424,43 @@ Table of Contents
    |   Orchestration    | ---------------> | YANG-Push Publisher|
    +--------------------+                  +--------------------+
 
-   Figure 2: Integration of KG Construcion Pipeline with YANG-kafka
+   Figure 3: Integration of KG Construcion Pipeline with YANG-kafka
                                Pipeline
 
-4.2.2.  Mapping
+5.2.2.  Mapping
 
    This second step consists at receiving the raw data data from the
    Ingestion step.  Here, the raw data is mapped to the concepts capture
    in one or more ontologies.  By applying these mapping rules, the raw
    data is semantically annotated and transformed into RDF data.  These
    mappings can be declared using declarative languages like RDF Mapping
-   Language (RML).
+   Language (RML) [Iglesias-Molina2023].
 
    RML is a declarative language that is currently being standardized
-   within the W3C KGC that allows for defining mappings rules for raw
-   data encoded in semi-structured formats like XML or JSON.  The
-   benefits of using a declarative language like RML are twofold: i) the
-   engine that implements the RML rules is generic, thus the mappings
-   rules are decoupled from the code; ii) the explicit representation of
-   mapping and transformation rules as part of the knowledge graph
-   provides data lineage insights that can greatly improve data quality
-   and the troubleshooting of data pipelines.  RML is making progress
-   towards becoming a standard, but support of additional YANG encoding
-   formats like CBOR [RFC8949] or Protobuf remains a challenge.
+   within the W3C Knowledge Graph Construction Community group [W3C-KGC]
+   that allows for defining mappings rules for raw data encoded in semi-
+   structured formats like XML or JSON.  The benefits of using a
+   declarative language like RML are twofold: i) the engine that
+   implements the RML rules is generic, thus the mappings rules are
+   decoupled from the code; ii) the explicit representation of mapping
+   and transformation rules as part of the knowledge graph provides data
+   lineage insights that can greatly improve data quality and the
+   troubleshooting of data pipelines.  RML is making progress towards
+   becoming a standard, but support of additional YANG encoding formats
+   like CBOR [RFC8949] or Protobuf remains a challenge.
 
-4.2.3.  Materialization
+5.2.3.  Materialization
 
    This is the final step of the knowledge graph creation.  This step
    receives as an input the RDF data generated in the Mapping step.  At
    this point, the RDF data can be sent to an RDF triple store like
-   Apache Jena Fuseki [fuseki] for consumption via SPARQL.  But
+   Apache Jena Fuseki [Fuseki] for consumption via SPARQL.  But
    alternatively, this step may transform the RDF data into an LPG
    structure and store the resulting data in a graph database like Neoj4
-   [neo4j].  Similarly, the RDF data could also be transformed into the
+   [Neo4j].  Similarly, the RDF data could also be transformed into the
    ETSI NGSI-LD standard and stored in an NGSI-LD Context Broker.
 
-5.  Knowledge Graph Applications
+6.  Knowledge Graph Applications
 
    Network performance KPIs:  The integration of data at different
       levels of abstraction in the network can facilitate the
@@ -499,7 +533,7 @@ Table of Contents
       characterizes the platform producing the data; and (ii) the
       metadata that characterizes how and when the data were metered.
 
-6.  Challenges
+7.  Challenges
 
    Ontology development:  Time-consuming task that requires skills in
       knowledge management and conceptual modeling.  Additionally,
@@ -512,7 +546,7 @@ Table of Contents
       sense, the future release of the YANG language could be extended
       to facilitate this task at design time.  YANG data models could
       include explicit semantics in the data models, in the same way
-      that JSON-LD [jsonld] or CSVW [csvw] include metadata indicating
+      that JSON-LD [JSON-LD] or CSVW [CSVW] include metadata indicating
       which concepts from concepts are referenced by the data.  In the
       current version of YANG, this could be achieved at runtime using
       the YANG Metadata extension [RFC7952].  With this extension, YANG
@@ -558,7 +592,7 @@ Table of Contents
       management since both configuration and operational data are
       stored in the knowledge graph.
 
-7.  Security Considerations
+8.  Security Considerations
 
    Access control to data:  The knowledge graph becomes an integrator of
       data, and, in many cases, sensible.  Therefore, data access
@@ -589,11 +623,11 @@ Table of Contents
       that such data come from the golden data source, and therefore,
       that the data can be trusted.
 
-8.  IANA Considerations
+9.  IANA Considerations
 
    This document has no IANA actions.
 
-9.  Open Issues
+10.  Open Issues
 
    *  Should RML mappings reference data at the YANG level using XPath
       or subtree filters?  Or references should remain based on the
@@ -618,9 +652,9 @@ Table of Contents
    *  More examples?  References to implementations based on open-source
       implementations, shown in hackathon
 
-10.  References
+11.  References
 
-10.1.  Normative References
+11.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -635,14 +669,14 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-10.2.  Informative References
+11.2.  Informative References
 
-   [csvw]     "CSVW - CSV on the Web", n.d., <https://csvw.org>.
+   [CSVW]     "CSVW - CSV on the Web", n.d., <https://csvw.org>.
 
-   [fuseki]   "Apache Jena Fuseki", n.d.,
+   [Fuseki]   "Apache Jena Fuseki", n.d.,
               <https://jena.apache.org/documentation/fuseki2/>.
 
-   [gnmi]     "gRPC Network Management Interface (gNMI)", n.d.,
+   [GNMI]     "gRPC Network Management Interface (gNMI)", n.d.,
               <https://github.com/openconfig/reference/blob/master/rpc/
               gnmi/gnmi-specification.md>.
 
@@ -713,11 +747,39 @@ Table of Contents
               <https://datatracker.ietf.org/doc/html/draft-netana-nmop-
               yang-message-broker-integration-00>.
 
-   [jsonld]   "JSON-LD - JSON for Linking Data", n.d.,
-              <https://json-ld.org>.
+   [Iglesias-Molina2023]
+              "The RML Ontology: A Community-Driven Modular Redesign
+              After a Decade of Experience in Mapping Heterogeneous Data
+              to RDF", October 2023,
+              <https://doi.org/10.1007/978-3-031-47243-5_9>.
 
-   [neo4j]    "rdflib-neo4j - RDFLib Store backed by neo4j!", n.d.,
+   [JSON-LD]  W3C, "JSON-LD 1.1: A JSON-based Serialization for Linked
+              Data", July 2020, <https://www.w3.org/TR/json-ld11/>.
+
+   [Neo4j]    "rdflib-neo4j - RDFLib Store backed by neo4j", n.d.,
               <https://github.com/neo4j-labs/rdflib-neo4j>.
+
+   [oc-interfaces]
+              OpenConfig, "openconfig-interfaces modules", n.d.,
+              <https://openconfig.net/projects/models/schemadocs/
+              yangdoc/openconfig-interfaces.html>.
+
+   [OWL]      W3C, "OWL 2 Web Ontology Language Document Overview
+              (Second Edition)", December 2012,
+              <https://www.w3.org/TR/owl2-overview/>.
+
+   [Poveda-Villalon2022]
+              Engineering Applications of Artificial Intelligence, "LOT:
+              An industrial oriented ontology engineering framework",
+              May 2022,
+              <https://doi.org/10.1016/j.engappai.2022.104755>.
+
+   [RDF]      W3C, "Resource Description Framework (RDF): Concepts and
+              Abstract Syntax", February 2014,
+              <https://www.w3.org/TR/rdf11-concepts/>.
+
+   [RDFS]     W3C, "RDF Schema 1.1", February 2014,
+              <https://www.w3.org/TR/rdf-schema/>.
 
    [RFC3444]  Pras, A. and J. Schoenwaelder, "On the Difference between
               Information Models and Data Models", RFC 3444,
@@ -740,6 +802,14 @@ Table of Contents
    [RFC8199]  Bogdanovic, D., Claise, B., and C. Moberg, "YANG Module
               Classification", RFC 8199, DOI 10.17487/RFC8199, July
               2017, <https://www.rfc-editor.org/rfc/rfc8199>.
+
+   [RFC8340]  Bjorklund, M. and L. Berger, Ed., "YANG Tree Diagrams",
+              BCP 215, RFC 8340, DOI 10.17487/RFC8340, March 2018,
+              <https://www.rfc-editor.org/rfc/rfc8340>.
+
+   [RFC8343]  Bjorklund, M., "A YANG Data Model for Interface
+              Management", RFC 8343, DOI 10.17487/RFC8343, March 2018,
+              <https://www.rfc-editor.org/rfc/rfc8343>.
 
    [RFC8345]  Clemm, A., Medved, J., Varga, R., Bahadur, N.,
               Ananthakrishnan, H., and X. Liu, "A YANG Data Model for
@@ -770,11 +840,23 @@ Table of Contents
               RFC 9418, DOI 10.17487/RFC9418, July 2023,
               <https://www.rfc-editor.org/rfc/rfc9418>.
 
+   [SHACL]    W3C, "Shapes Constraint Language (SHACL)", July 2017,
+              <https://www.w3.org/TR/shacl/>.
+
+   [SPARQL]   W3C, "SPARQL 1.1 Query Language", March 2013,
+              <https://www.w3.org/TR/sparql11-query/>.
+
+   [W3C-KGC]  W3C, "Knowledge Graph Construction Community Group", n.d.,
+              <https://www.w3.org/community/kg-construct/>.
+
 Acknowledgments
 
    This document is based on work partially funded by the EU Horizon
-   Europe projects aerOS (grant 101069732) and ROBUST-6G (grant
-   101139068).
+   Europe projects aerOS (grant agreement no. 101069732) and ROBUST-6G
+   (grant agreement no. 101139068).
+
+   The authors would like to thank Mohamed Boucadair and Benoit Claise
+   for their review and valuable comments.
 
 Authors' Addresses
 
