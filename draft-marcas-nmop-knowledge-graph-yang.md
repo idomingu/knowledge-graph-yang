@@ -50,8 +50,11 @@ informative:
     title: Apache Jena Fuseki
     target: https://jena.apache.org/documentation/fuseki2/
   JSON-LD:
-    title: JSON-LD - JSON for Linking Data
-    target: https://json-ld.org
+    title: "JSON-LD 1.1: A JSON-based Serialization for Linked Data"
+    author:
+      organization: W3C
+    target: https://www.w3.org/TR/json-ld11/
+    date: July 2020
   Poveda-Villalon2022:
     title: "LOT: An industrial oriented ontology engineering framework"
     author:
@@ -72,26 +75,31 @@ informative:
     author:
       organization: W3C
     target: https://www.w3.org/TR/owl2-overview/
+    date: December 2012
   RDF:
     title: "Resource Description Framework (RDF): Concepts and Abstract Syntax"
     author:
       organization: W3C
     target: https://www.w3.org/TR/rdf11-concepts/
+    date: February 2014
   RDFS:
     title: "RDF Schema 1.1"
     author:
       organization: W3C
     target: https://www.w3.org/TR/rdf-schema/
+    date: February 2014
   SHACL:
     title: "Shapes Constraint Language (SHACL)"
     author:
       organization: W3C
     target: https://www.w3.org/TR/shacl/
+    date: July 2017
   SPARQL:
     title: "SPARQL 1.1 Query Language"
     author:
       organization: W3C
     target: https://www.w3.org/TR/sparql11-query/
+    date: March 2013
   W3C-KGC:
     title: Knowledge Graph Construction Community Group
     author:
