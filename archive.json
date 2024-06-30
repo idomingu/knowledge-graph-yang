@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-27T01:06:06.248424+00:00",
+  "timestamp": "2024-06-30T01:11:41.087104+00:00",
   "repo": "idomingu/knowledge-graph-yang",
   "labels": [
     {
@@ -84,26 +84,50 @@
       "id": "PR_kwDOL1WQn85zfUse",
       "title": "A quick review",
       "url": "https://github.com/idomingu/knowledge-graph-yang/pull/2",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "boucadair",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-06-25T12:02:48Z",
-      "updatedAt": "2024-06-25T12:02:49Z",
+      "updatedAt": "2024-06-27T07:27:39Z",
       "baseRepository": "idomingu/knowledge-graph-yang",
       "baseRefName": "main",
       "baseRefOid": "947c7d66327336135f81ed09b4b8b1ebf1e92326",
       "headRepository": "boucadair/knowledge-graph-yang",
       "headRefName": "patch-2",
       "headRefOid": "2ebd3e6a8f11b8fc0f0d91fb5804245a1a4aa4f2",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "closedAt": "2024-06-27T07:27:39Z",
+      "mergedAt": "2024-06-27T07:27:39Z",
+      "mergedBy": "idomingu",
+      "mergeCommit": {
+        "oid": "0b701b14a112d905fede17f9142e1e736859c618"
+      },
+      "comments": [
+        {
+          "author": "idomingu",
+          "authorAssociation": "OWNER",
+          "body": "Thanks for the review @boucadair ! Merging",
+          "createdAt": "2024-06-27T07:27:30Z",
+          "updatedAt": "2024-06-27T07:27:30Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOL1WQn85_0iOx",
+          "commit": {
+            "abbreviatedOid": "2ebd3e6"
+          },
+          "author": "idomingu",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-06-27T07:26:34Z",
+          "updatedAt": "2024-06-27T07:26:34Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
