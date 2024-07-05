@@ -88,11 +88,11 @@ Table of Contents
    3.  A Bief Introduction to Knowledge Graphs
      3.1.  What is a Knowledge Graph?
      3.2.  Key Graph Standards
-   4.  Knowledge Graph Construction
+   4.  Knowledge Graph Construction (KGC)
      4.1.  Ontology Development
        4.1.1.  Automatic knowledge Extraction from YANG Models
        4.1.2.  Standard Development Methodologies
-     4.2.  Construction Pipeline
+     4.2.  Knowledge Graph Construction Pipeline
        4.2.1.  Ingestion
        4.2.2.  Mapping
        4.2.3.  Materialization
@@ -275,7 +275,7 @@ Table of Contents
    *  The NGSI-LD API, which defines a REST API for building and
       interacting with the graph.
 
-4.  Knowledge Graph Construction
+4.  Knowledge Graph Construction (KGC)
 
    The construction of a knowledge graph can be divided into two main
    activities: ontology development (Section 4.1) and knowledge graph
@@ -350,7 +350,7 @@ Table of Contents
    natural language statements, or tabular information inspired by
    METHONTOLOGY.
 
-4.2.  Construction Pipeline
+4.2.  Knowledge Graph Construction Pipeline
 
    The construction of a knowledge graph is supported by a data pipeline
    that follows the archetypical Extract-Transform-Load (ETL), wherein
@@ -374,7 +374,7 @@ Table of Contents
          | (device) |                             +-----------+
          +----------+
 
-                Figure 2: Example of a Construction Pipeline
+        Figure 2: Example of a Knowledge Graph Construction Pipeline
 
    These steps are the following: ingestion, mapping, and
    materialization.
@@ -438,8 +438,8 @@ Table of Contents
    |   Orchestration    | ---------------> | YANG-Push Publisher|
    +--------------------+                  +--------------------+
 
-   Figure 3: Integration of KG Construcion Pipeline with YANG-kafka
-                               Pipeline
+    Figure 3: Integration of Knowledge Graph Construcion Pipeline
+                       with YANG-Kafka Pipeline
 
 4.2.2.  Mapping
 
