@@ -441,7 +441,7 @@ Table of Contents
    +--------------------+                  +--------------------+
 
     Figure 3: Integration of Knowledge Graph Construcion Pipeline
-                       with YANG-Kafka Pipeline
+            with YANG-Push to Message Broker Architecture
 
 4.2.2.  Mapping
 
