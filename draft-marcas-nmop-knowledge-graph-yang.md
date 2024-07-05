@@ -144,11 +144,23 @@ module: ietf-service-assurance-device
 
 The extraction of this hidden knowledge from YANG models would enable the integration of YANG data silos at a conceptual level, regardless of the physical implementation (i.e., the YANG schema, syntax, and encoding format). In this regard, the knowledge graph is a promising technology that can link data silos based on common concepts like "device" that are captured in ontologies. Besides, by transforming the YANG data into a graph structure the relationships between data silos are represented as first class citizens in the graph instead of "foreign keys" where the relationship is made implicit. This document provides guidelines for building a knowledge graph for data sources based on the YANG language.
 
-# Terminology
+# Conventions and Definitions
+
+{::boilerplate bcp14-tagged}
+
+## Terminology
+
+Data materialization: Technique that collects data from remote data source and persists a copy the data in a target data storage. This process can also be seen as Extract-Transform-Load (ETL).
+
+Data virtualization: Technique wherein an intermediate component (i.e., data virtualization layer) exposes data available in a remote data sources without creating an copy of the data. The data virtualization layer keeps pointers to the original location of data, so when a data consumer asks for these data, the virtualization layer collects the data from the source and directly serves the data to the consumer.
+
+Ontology: Formal, shared representation of knowledge in a domain.
 
 ## Acronyms
 
 CQ: Competency Question
+
+ETL: Extract-Transform-Load
 
 KG: Knowledge Graph
 
@@ -171,10 +183,6 @@ SAREF: Smart Applications REFerence
 SHACL: Shapes Constraint Language
 
 W3C: World Wide Web Consortium
-
-# Conventions and Definitions
-
-{::boilerplate bcp14-tagged}
 
 # A Bief Introduction to Knowledge Graphs
 
@@ -213,8 +221,6 @@ The extraction of knowledge from YANG models can be automated, in particular, by
 
 To support the creation of knowledge structures like taxonomies or thesauri, the W3C standardized the Simple Knowledge Organization System (SKOS). In such ontology, a concept scheme comprises a set of concepts that can be linked with other concepts via hierarchical and associative relations. Typically, a YANG model containing YANG identities can be represented as an instance of the "skos:ConceptScheme" class. Next, all YANG identities included in a YANG model can be represented as "skos:Concept instances" that are contained in the concept scheme. Lastly, those YANG identities that include the "base" statement, the respective SKOS concept will include a relation "skos:broader" whose range is the SKOS concept representing the parent YANG identity.
 
-> TBD: Include an example here or in the annex
-
 ### Standard Development Methodologies
 
 Automating the extraction of all the knowledge from YANG models is impossible, and therefore, manual intervention from domain experts is required. To ease this process, a recommended practice is to develop the ontology by following a standard methodology like Linked Open Terms (LOT) {{Poveda-Villalon2022}}.
@@ -227,8 +233,6 @@ LOT is an ontology development methodology that adopts best practices from agile
 4. ontology maintenance.
 
 The workflow starts with the specification of requirements that the ontology must fulfill. To that aim, the methodology requires collecting knowledge from domain experts, but also by analyzing the data sources (e.g., network devices) and schemas for the data (e.g., YANG models) to be ingested and integrated in the knowledge graph. LOT recommends several approaches such as competency questions (CQs), natural language statements, or tabular information inspired by METHONTOLOGY.
-
-> TBD: Include sample requirements of network topology YANG model (RFC 8345).
 
 ## Construction Pipeline  {#sec-pipe}
 
@@ -368,7 +372,9 @@ This document has no IANA actions.
 
 * Definition of YANG data sources with formal vocabulary, similar to what Web of Things ontology has done for MQTT or REST APIs or D2RQ ontology for relational databases. Having the specification of the data source in the knowledge graph improves provenance and decouples the configuration from the implementation, e.g., via custom INI config file.
 
-* More examples? References to implementations based on open-source implementations, shown in hackathon
+* More examples? References to implementations based on open-source implementations, shown in hackathon.
+
+* Document focused on YANG data sources. Should the document open the scope to other kinds of data sources like IPFIX?
 
 --- back
 
