@@ -355,8 +355,9 @@ Table of Contents
    The construction of a knowledge graph is supported by a data pipeline
    that follows the archetypical Extract-Transform-Load (ETL), wherein
    the raw data is collected from the source(s), transformed, and
-   finally, stored for consumption.  The knowledge graph creation can
-   thus be split into multiple steps as depicted in Figure 2.
+   finally, stored for consumption.  The knowledge graph creation
+   pipeline can thus be split into multiple steps as depicted in
+   Figure 2.
 
          +-----------+       +---------+       +-----------------+
          |           |       |         |       |                 |
@@ -374,7 +375,8 @@ Table of Contents
          | (device) |                             +-----------+
          +----------+
 
-        Figure 2: Example of a Knowledge Graph Construction Pipeline
+           Figure 2: High-level architecture of a Knowledge Graph
+                           Construction Pipeline
 
    These steps are the following: ingestion, mapping, and
    materialization.
