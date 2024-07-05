@@ -177,6 +177,8 @@ Table of Contents
 
 2.1.  Terminology
 
+   This document defines the following terms:
+
    Data materialization: Technique that collects data from remote data
    source and persists a copy the data in a target data storage.  This
    process can also be seen as Extract-Transform-Load (ETL).
