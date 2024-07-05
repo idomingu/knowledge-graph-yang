@@ -410,40 +410,7 @@ Table of Contents
    of streams of YANG data
    [I-D.netana-nmop-yang-message-broker-integration].  Hence, knowledge
    graph collectors could also support the ingestion of YANG data from
-   these kinds of message brokers, as shown in Figure 3.
-
-   +------------------------------------------------------------+
-   |                  Knowledge Graph Database                  |
-   +------------------------------------------------------------+
-                                  ^
-                                  | (11) RDF data
-                                  |
-   +------------------------------------------------------------+
-   |            Knowledge Graph Construction Pipeline           |
-   +------------------------------------------------------------+
-(9) Get  |  ^                                   ^ (8) Validate serialized Message
- Schema  |  |                                   | Against Schema on Consumer
-         |  |                                   |
-         |  |                                   |
-         |  | (10) Issue                        | (7) Serialize YANG-Push Message
-         v  | Schema             (5) Post       | annotated Schema ID
-   +--------------------+          Schema  +--------------------+
-   |       YANG         | <--------------  |  Data Collection   |
-   |  Schema Registry   | -------------->  | YANG-Push Receiver |
-   +--------------------+ (6) Issue        +--------------------+
-                          Schema ID     (3) Get |  ^ (2) Receive YANG-Push
-                                         Schema |  | Subscription Start Message
-                                                |  |   ^
-                                                |  |   |
-                                                |  |   | (4) Publish YANG-Push
-                                                v  |   | Message with Subscription ID
-   +--------------------+                  +--------------------+
-   |      Network       | (1) Subscribe    |   Network Node     |
-   |   Orchestration    | ---------------> | YANG-Push Publisher|
-   +--------------------+                  +--------------------+
-
-    Figure 3: Integration of Knowledge Graph Construcion Pipeline
-            with YANG-Push to Message Broker Architecture
+   these kinds of message brokers.
 
 4.2.2.  Mapping
 
@@ -667,8 +634,9 @@ Table of Contents
       decouples the configuration from the implementation, e.g., via
       custom INI config file.
 
-   *  More examples?  References to implementations based on open-source
-      implementations, shown in hackathon.
+   *  Implementations?  References to examples based on open-source
+      implementations.  Integration with YANG-Push-Kafka architecture.
+      Target future hackathons.
 
    *  Document focused on YANG data sources.  Should the document open
       the scope to other kinds of data sources like IPFIX?
