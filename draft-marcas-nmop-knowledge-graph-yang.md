@@ -119,7 +119,7 @@ informative:
 
 The success of the YANG language and YANG-based protocols for managing the network has unlocked new opportunities in network analytics. However, the wide heterogeneity of YANG models hinders the consumption and analysis of network data. Besides, data encoding formats and transport protocols will differ depending on the network management protocol supported by the network device. These challenges call for new data management paradigms that facilitate the discovery, understanding, integration and access to silos of heterogenous YANG data, abstracting from the complexities of the network devices.
 
-This document introduces the knowledge graph concept as a solution to this data management problem, with a focus on YANG-based network management. The document provides background on related topics such as ontologies and graph standards, and shares guidelines for implementing knowledge graphs from YANG data.
+This document introduces the knowledge graph paradigm as a solution to this data management problem, with focus on YANG-based network management. The document provides background on related topics such as ontologies and graph standards, and shares guidelines for implementing knowledge graphs from YANG data.
 
 --- middle
 
