@@ -205,7 +205,7 @@ Similarly, the ETSI ISG CIM defined the NGSI-LD standard {{ETSI-GS-CIM-009}}, wh
 * An NGSI-LD information model which derives from the Labeled Property Graph (LPG) model and grounds on the RDF for a semantic annotation of the data in the graph.
 * The NGSI-LD API, which defines a REST API for building and interacting with the graph.
 
-# Knowledge Graph Construction
+# Knowledge Graph Construction (KGC)
 
 The construction of a knowledge graph can be divided into two main activities: ontology development ({{sec-onto}}) and knowledge graph construction pipeline ({{sec-pipe}}).
 
@@ -234,9 +234,9 @@ LOT is an ontology development methodology that adopts best practices from agile
 
 The workflow starts with the specification of requirements that the ontology must fulfill. To that aim, the methodology requires collecting knowledge from domain experts, but also by analyzing the data sources (e.g., network devices) and schemas for the data (e.g., YANG models) to be ingested and integrated in the knowledge graph. LOT recommends several approaches such as competency questions (CQs), natural language statements, or tabular information inspired by METHONTOLOGY.
 
-## Construction Pipeline  {#sec-pipe}
+## Knowledge Graph Construction Pipeline  {#sec-pipe}
 
-The construction of a knowledge graph is supported by a data pipeline that follows the archetypical Extract-Transform-Load (ETL), wherein the raw data is collected from the source(s), transformed, and finally, stored for consumption. The knowledge graph creation can thus be split into multiple steps as depicted in {{ex-construction}}.
+The construction of a knowledge graph is supported by a data pipeline that follows the archetypical Extract-Transform-Load (ETL), wherein the raw data is collected from the source(s), transformed, and finally, stored for consumption. The knowledge graph creation pipeline can thus be split into multiple steps as depicted in {{ex-construction}}.
 
 ~~~
 +-----------+       +---------+       +-----------------+
@@ -255,7 +255,7 @@ The construction of a knowledge graph is supported by a data pipeline that follo
 | (device) |                             +-----------+
 +----------+
 ~~~
-{: #ex-construction title="Example of a Construction Pipeline" artwork-align="center"}
+{: #ex-construction title="High-level architecture of a Knowledge Graph Construction Pipeline" artwork-align="center"}
 
 These steps are the following: ingestion, mapping, and materialization.
 
@@ -299,7 +299,7 @@ Regarding streaming data sources, the collector subscribes to a YANG server to r
    +--------------------+                  +--------------------+
 
 ~~~
-{: #ex-int title="Integration of KG Construcion Pipeline with YANG-kafka Pipeline" artwork-align="center"}
+{: #ex-int title="Integration of Knowledge Graph Construcion Pipeline with YANG-Push to Message Broker Architecture" artwork-align="center"}
 
 
 ### Mapping
