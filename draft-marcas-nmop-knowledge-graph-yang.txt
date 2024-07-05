@@ -5,7 +5,7 @@
 Network Management Operations                   I. D. Martinez-Casanueva
 Internet-Draft                                             L. Cabanillas
 Intended status: Informational                                Telefonica
-Expires: 29 December 2024                                   27 June 2024
+Expires: 6 January 2025                                      5 July 2024
 
 
            Knowledge Graphs for YANG-based Network Management
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 December 2024.
+   This Internet-Draft will expire on 6 January 2025.
 
 Copyright Notice
 
@@ -82,28 +82,28 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-   2.  Terminology
-     2.1.  Acronyms
-   3.  Conventions and Definitions
-   4.  A Bief Introduction to Knowledge Graphs
-     4.1.  What is a Knowledge Graph?
-     4.2.  Key Graph Standards
-   5.  Knowledge Graph Construction
-     5.1.  Ontology Development
-       5.1.1.  Automatic knowledge Extraction from YANG Models
-       5.1.2.  Standard Development Methodologies
-     5.2.  Construction Pipeline
-       5.2.1.  Ingestion
-       5.2.2.  Mapping
-       5.2.3.  Materialization
-   6.  Knowledge Graph Applications
-   7.  Challenges
-   8.  Security Considerations
-   9.  IANA Considerations
-   10. Open Issues
-   11. References
-     11.1.  Normative References
-     11.2.  Informative References
+   2.  Conventions and Definitions
+     2.1.  Terminology
+     2.2.  Acronyms
+   3.  A Bief Introduction to Knowledge Graphs
+     3.1.  What is a Knowledge Graph?
+     3.2.  Key Graph Standards
+   4.  Knowledge Graph Construction
+     4.1.  Ontology Development
+       4.1.1.  Automatic knowledge Extraction from YANG Models
+       4.1.2.  Standard Development Methodologies
+     4.2.  Construction Pipeline
+       4.2.1.  Ingestion
+       4.2.2.  Mapping
+       4.2.3.  Materialization
+   5.  Knowledge Graph Applications
+   6.  Challenges
+   7.  Security Considerations
+   8.  IANA Considerations
+   9.  Open Issues
+   10. References
+     10.1.  Normative References
+     10.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -167,11 +167,35 @@ Table of Contents
    document provides guidelines for building a knowledge graph for data
    sources based on the YANG language.
 
-2.  Terminology
+2.  Conventions and Definitions
 
-2.1.  Acronyms
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+2.1.  Terminology
+
+   Data materialization: Technique that collects data from remote data
+   source and persists a copy the data in a target data storage.  This
+   process can also be seen as Extract-Transform-Load (ETL).
+
+   Data virtualization: Technique wherein an intermediate component
+   (i.e., data virtualization layer) exposes data available in a remote
+   data sources without creating an copy of the data.  The data
+   virtualization layer keeps pointers to the original location of data,
+   so when a data consumer asks for these data, the virtualization layer
+   collects the data from the source and directly serves the data to the
+   consumer.
+
+   Ontology: Formal, shared representation of knowledge in a domain.
+
+2.2.  Acronyms
 
    CQ: Competency Question
+
+   ETL: Extract-Transform-Load
 
    KG: Knowledge Graph
 
@@ -195,17 +219,9 @@ Table of Contents
 
    W3C: World Wide Web Consortium
 
-3.  Conventions and Definitions
+3.  A Bief Introduction to Knowledge Graphs
 
-   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-   "OPTIONAL" in this document are to be interpreted as described in
-   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
-   capitals, as shown here.
-
-4.  A Bief Introduction to Knowledge Graphs
-
-4.1.  What is a Knowledge Graph?
+3.1.  What is a Knowledge Graph?
 
    A knowledge graph contains a collection of facts alongside what know
    we about them and represents following a graph structure.  Knowledge
@@ -232,7 +248,7 @@ Table of Contents
    knowledge graphs enable the integration of heterogenous data based
    their semantics is what knowledge graphs can deliver.
 
-4.2.  Key Graph Standards
+3.2.  Key Graph Standards
 
    The Resource Description Framework (RDF) [RDF] data model from the
    W3C Semantic Web has been considered as the standard graph data model
@@ -259,13 +275,13 @@ Table of Contents
    *  The NGSI-LD API, which defines a REST API for building and
       interacting with the graph.
 
-5.  Knowledge Graph Construction
+4.  Knowledge Graph Construction
 
    The construction of a knowledge graph can be divided into two main
-   activities: ontology development (Section 5.1) and knowledge graph
-   construction pipeline (Section 5.2).
+   activities: ontology development (Section 4.1) and knowledge graph
+   construction pipeline (Section 4.2).
 
-5.1.  Ontology Development
+4.1.  Ontology Development
 
    Ontologies provide the formal representation of the conceptual models
    that capture the semantics of data, and building on this, the
@@ -274,7 +290,7 @@ Table of Contents
    fully automated, depending on the characteristics of the data to be
    integrated in the knowledge graph (e.g., format or schema).
 
-5.1.1.  Automatic knowledge Extraction from YANG Models
+4.1.1.  Automatic knowledge Extraction from YANG Models
 
    The extraction of knowledge from YANG models can be automated, in
    particular, by analyzing YANG identities to generate controlled
@@ -300,9 +316,7 @@ Table of Contents
    include a relation "skos:broader" whose range is the SKOS concept
    representing the parent YANG identity.
 
-      TBD: Include an example here or in the annex
-
-5.1.2.  Standard Development Methodologies
+4.1.2.  Standard Development Methodologies
 
    Automating the extraction of all the knowledge from YANG models is
    impossible, and therefore, manual intervention from domain experts is
@@ -336,10 +350,7 @@ Table of Contents
    natural language statements, or tabular information inspired by
    METHONTOLOGY.
 
-      TBD: Include sample requirements of network topology YANG model
-      (RFC 8345).
-
-5.2.  Construction Pipeline
+4.2.  Construction Pipeline
 
    The construction of a knowledge graph is supported by a data pipeline
    that follows the archetypical Extract-Transform-Load (ETL), wherein
@@ -368,7 +379,7 @@ Table of Contents
    These steps are the following: ingestion, mapping, and
    materialization.
 
-5.2.1.  Ingestion
+4.2.1.  Ingestion
 
    Represents the first step in the creation of the knowledge graph.
    This step is realized by means of collectors that ingest raw data
@@ -430,7 +441,7 @@ Table of Contents
    Figure 3: Integration of KG Construcion Pipeline with YANG-kafka
                                Pipeline
 
-5.2.2.  Mapping
+4.2.2.  Mapping
 
    This second step consists at receiving the raw data data from the
    Ingestion step.  Here, the raw data is mapped to the concepts capture
@@ -452,7 +463,7 @@ Table of Contents
    becoming a standard, but support of additional YANG encoding formats
    like CBOR [RFC8949] or Protobuf remains a challenge.
 
-5.2.3.  Materialization
+4.2.3.  Materialization
 
    This is the final step of the knowledge graph creation.  This step
    receives as an input the RDF data generated in the Mapping step.  At
@@ -463,7 +474,7 @@ Table of Contents
    [Neo4j].  Similarly, the RDF data could also be transformed into the
    ETSI NGSI-LD standard and stored in an NGSI-LD Context Broker.
 
-6.  Knowledge Graph Applications
+5.  Knowledge Graph Applications
 
    Network performance KPIs:  The integration of data at different
       levels of abstraction in the network can facilitate the
@@ -536,7 +547,7 @@ Table of Contents
       characterizes the platform producing the data; and (ii) the
       metadata that characterizes how and when the data were metered.
 
-7.  Challenges
+6.  Challenges
 
    Ontology development:  Time-consuming task that requires skills in
       knowledge management and conceptual modeling.  Additionally,
@@ -595,7 +606,7 @@ Table of Contents
       management since both configuration and operational data are
       stored in the knowledge graph.
 
-8.  Security Considerations
+7.  Security Considerations
 
    Access control to data:  The knowledge graph becomes an integrator of
       data, and, in many cases, sensible.  Therefore, data access
@@ -626,11 +637,11 @@ Table of Contents
       that such data come from the golden data source, and therefore,
       that the data can be trusted.
 
-9.  IANA Considerations
+8.  IANA Considerations
 
    This document has no IANA actions.
 
-10.  Open Issues
+9.  Open Issues
 
    *  Should RML mappings reference data at the YANG level using XPath
       or subtree filters?  Or references should remain based on the
@@ -653,11 +664,14 @@ Table of Contents
       custom INI config file.
 
    *  More examples?  References to implementations based on open-source
-      implementations, shown in hackathon
+      implementations, shown in hackathon.
 
-11.  References
+   *  Document focused on YANG data sources.  Should the document open
+      the scope to other kinds of data sources like IPFIX?
 
-11.1.  Normative References
+10.  References
+
+10.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -672,7 +686,7 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-11.2.  Informative References
+10.2.  Informative References
 
    [CSVW]     "CSVW - CSV on the Web", n.d., <https://csvw.org>.
 
