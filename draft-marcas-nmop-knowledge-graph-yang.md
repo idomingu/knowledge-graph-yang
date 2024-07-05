@@ -267,42 +267,7 @@ Represents the first step in the creation of the knowledge graph. This step is r
 
 Two main types of data sources are identified based on the techniques used to ingest the data, namely, batch and streaming. In the case of batch data sources data are pulled (once or periodically) from the data source. This could be represented by queries sent to a YANG server like an SDN controller to fetch the network topology {{?RFC8345}}.
 
-Regarding streaming data sources, the collector subscribes to a YANG server to receive notifications of YANG data periodically or upon changes in the data source (e.g., a network device whose interface goes down). These subscriptions can be realized, either based on configuration or dynamically, using mechanisms like YANG Push {{?RFC8641}}. But additionally, another common scenario is the use of message broker systems like Apache Kafka for decoupling the ingestion of streams of YANG data {{?I-D.netana-nmop-yang-message-broker-integration}}. Hence, knowledge graph collectors could also support the ingestion of YANG data from these kinds of message brokers, as shown in {{ex-int}}.
-
-~~~
-   +------------------------------------------------------------+
-   |                  Knowledge Graph Database                  |
-   +------------------------------------------------------------+
-                                  ^
-                                  | (11) RDF data
-                                  |
-   +------------------------------------------------------------+
-   |            Knowledge Graph Construction Pipeline           |
-   +------------------------------------------------------------+
-(9) Get  |  ^                                   ^ (8) Validate serialized Message
- Schema  |  |                                   | Against Schema on Consumer
-         |  |                                   |
-         |  |                                   |
-         |  | (10) Issue                        | (7) Serialize YANG-Push Message
-         v  | Schema             (5) Post       | annotated Schema ID
-   +--------------------+          Schema  +--------------------+
-   |       YANG         | <--------------  |  Data Collection   |
-   |  Schema Registry   | -------------->  | YANG-Push Receiver |
-   +--------------------+ (6) Issue        +--------------------+
-                          Schema ID     (3) Get |  ^ (2) Receive YANG-Push
-                                         Schema |  | Subscription Start Message
-                                                |  |   ^
-                                                |  |   |
-                                                |  |   | (4) Publish YANG-Push
-                                                v  |   | Message with Subscription ID
-   +--------------------+                  +--------------------+
-   |      Network       | (1) Subscribe    |   Network Node     |
-   |   Orchestration    | ---------------> | YANG-Push Publisher|
-   +--------------------+                  +--------------------+
-
-~~~
-{: #ex-int title="Integration of Knowledge Graph Construcion Pipeline with YANG-Push to Message Broker Architecture" artwork-align="center"}
-
+Regarding streaming data sources, the collector subscribes to a YANG server to receive notifications of YANG data periodically or upon changes in the data source (e.g., a network device whose interface goes down). These subscriptions can be realized, either based on configuration or dynamically, using mechanisms like YANG Push {{?RFC8641}}. But additionally, another common scenario is the use of message broker systems like Apache Kafka for decoupling the ingestion of streams of YANG data {{?I-D.netana-nmop-yang-message-broker-integration}}. Hence, knowledge graph collectors could also support the ingestion of YANG data from these kinds of message brokers.
 
 ### Mapping
 
@@ -374,7 +339,7 @@ This document has no IANA actions.
 
 * Definition of YANG data sources with formal vocabulary, similar to what Web of Things ontology has done for MQTT or REST APIs or D2RQ ontology for relational databases. Having the specification of the data source in the knowledge graph improves provenance and decouples the configuration from the implementation, e.g., via custom INI config file.
 
-* More examples? References to implementations based on open-source implementations, shown in hackathon.
+* Implementations? References to examples based on open-source implementations. Integration with YANG-Push-Kafka architecture. Target future hackathons.
 
 * Document focused on YANG data sources. Should the document open the scope to other kinds of data sources like IPFIX?
 
