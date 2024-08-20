@@ -5,7 +5,7 @@
 Network Management Operations                   I. D. Martinez-Casanueva
 Internet-Draft                                             L. Cabanillas
 Intended status: Informational                                Telefonica
-Expires: 6 January 2025                                      5 July 2024
+Expires: 21 February 2025                                 20 August 2024
 
 
            Knowledge Graphs for YANG-based Network Management
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 January 2025.
+   This Internet-Draft will expire on 21 February 2025.
 
 Copyright Notice
 
@@ -456,15 +456,15 @@ Table of Contents
       throughput or packets loss ratio at a specific link in the
       network.
 
-   Anomaly detection and incident management:  Projects like NORIA have
-      demonstrated how knowledge graphs can help in the detection of
-      anomalies in network systems.  This approach links data pertaining
-      to different data silos like network infrastructure, logs, alarms,
-      and ticketing.  In another example, the combination network
-      topology data with data about network interface status, consumers
-      of the knowledge graph can detect network anomalies like link
-      fault because an network interface has been unexpectedly disabled
-      but it was configured to be enabled.
+   Anomaly detection and incident management:  Projects like NORIA
+      [Tailhardat2023] have demonstrated how knowledge graphs can help
+      in the detection of anomalies in network systems.  This approach
+      links data pertaining to different data silos like network
+      infrastructure, logs, alarms, and ticketing.  In another example,
+      the combination network topology data with data about network
+      interface status, consumers of the knowledge graph can detect
+      network anomalies like link fault because an network interface has
+      been unexpectedly disabled but it was configured to be enabled.
 
    Service assurance:  A knowledge graph can enable the implementation
       of the service assurance for intent-based networking architecture
@@ -679,43 +679,42 @@ Table of Contents
               and R. Rahman, "RFC 3535, 20 Years Later: An Update of
               Operators Requirements on Network Management Protocols and
               Modelling", Work in Progress, Internet-Draft, draft-
-              boucadair-nmop-rfc3535-20years-later-03, 18 June 2024,
+              boucadair-nmop-rfc3535-20years-later-04, 22 July 2024,
               <https://datatracker.ietf.org/doc/html/draft-boucadair-
-              nmop-rfc3535-20years-later-03>.
+              nmop-rfc3535-20years-later-04>.
 
    [I-D.havel-nmop-digital-map]
-              Havel, O., Claise, B., de Dios, O. G., Elhassany, A.,
-              Graf, T., and M. Boucadair, "Modeling the Digital Map
-              based on RFC 8345: Sharing Experience and Perspectives",
-              Work in Progress, Internet-Draft, draft-havel-nmop-
-              digital-map-00, 3 March 2024,
-              <https://datatracker.ietf.org/doc/html/draft-havel-nmop-
-              digital-map-00>.
+              Havel, O., Claise, B., de Dios, O. G., Elhassany, A., and
+              T. Graf, "Modeling the Digital Map based on RFC 8345:
+              Sharing Experience and Perspectives", Work in Progress,
+              Internet-Draft, draft-havel-nmop-digital-map-01, 5 July
+              2024, <https://datatracker.ietf.org/doc/html/draft-havel-
+              nmop-digital-map-01>.
 
    [I-D.ietf-ivy-network-inventory-yang]
               Yu, C., Belotti, S., Bouquier, J., Peruzzini, F., and P.
               Bedard, "A YANG Data Model for Network Inventory", Work in
               Progress, Internet-Draft, draft-ietf-ivy-network-
-              inventory-yang-01, 4 March 2024,
+              inventory-yang-03, 7 July 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-ivy-
-              network-inventory-yang-01>.
+              network-inventory-yang-03>.
 
    [I-D.ietf-opsawg-collected-data-manifest]
               Claise, B., Quilbeuf, J., Lopez, D., Martinez-Casanueva,
               I. D., and T. Graf, "A Data Manifest for Contextualized
               Telemetry Data", Work in Progress, Internet-Draft, draft-
-              ietf-opsawg-collected-data-manifest-03, 4 March 2024,
+              ietf-opsawg-collected-data-manifest-04, 8 July 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-opsawg-
-              collected-data-manifest-03>.
+              collected-data-manifest-04>.
 
    [I-D.irtf-nmrg-network-digital-twin-arch]
               Zhou, C., Yang, H., Duan, X., Lopez, D., Pastor, A., Wu,
               Q., Boucadair, M., and C. Jacquenet, "Network Digital
               Twin: Concepts and Reference Architecture", Work in
               Progress, Internet-Draft, draft-irtf-nmrg-network-digital-
-              twin-arch-05, 4 March 2024,
+              twin-arch-06, 7 July 2024,
               <https://datatracker.ietf.org/doc/html/draft-irtf-nmrg-
-              network-digital-twin-arch-05>.
+              network-digital-twin-arch-06>.
 
    [I-D.lincla-netconf-yang-library-augmentation]
               Lin, Z., Claise, B., and I. D. Martinez-Casanueva,
@@ -726,12 +725,12 @@ Table of Contents
               netconf-yang-library-augmentation-01>.
 
    [I-D.lopez-opsawg-yang-provenance]
-              Lopez, D., Pastor, A., Feng, A. H., and H. Birkholz,
-              "Applying COSE Signatures for YANG Data Provenance", Work
-              in Progress, Internet-Draft, draft-lopez-opsawg-yang-
-              provenance-02, 1 March 2024,
+              Lopez, D., Pastor, A., Feng, A. H., Birkholz, H., and S.
+              Garcia, "Applying COSE Signatures for YANG Data
+              Provenance", Work in Progress, Internet-Draft, draft-
+              lopez-opsawg-yang-provenance-03, 6 July 2024,
               <https://datatracker.ietf.org/doc/html/draft-lopez-opsawg-
-              yang-provenance-02>.
+              yang-provenance-03>.
 
    [I-D.netana-nmop-yang-message-broker-integration]
               Graf, T. and A. Elhassany, "An Architecture for YANG-Push
@@ -839,6 +838,11 @@ Table of Contents
 
    [SPARQL]   W3C, "SPARQL 1.1 Query Language", March 2013,
               <https://www.w3.org/TR/sparql11-query/>.
+
+   [Tailhardat2023]
+              "Designing NORIA: a Knowledge Graph-based Platform for
+              Anomaly Detection and Incident Management in ICT Systems",
+              May 2023, <https://ceur-ws.org/Vol-3471/paper3.pdf>.
 
    [W3C-KGC]  W3C, "Knowledge Graph Construction Community Group", n.d.,
               <https://www.w3.org/community/kg-construct/>.
