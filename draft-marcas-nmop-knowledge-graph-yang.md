@@ -109,6 +109,12 @@ informative:
       organization: W3C
     target: https://www.w3.org/TR/sparql11-query/
     date: March 2013
+  Tailhardat2023:
+    title: "Designing NORIA: a Knowledge Graph-based Platform for Anomaly Detection and Incident Management in ICT Systems"
+    autor:
+      organization: "KGCW’23: 4th International Workshop on Knowledge Graph Construction"
+    target: https://ceur-ws.org/Vol-3471/paper3.pdf
+    date: May 2023
   W3C-KGC:
     title: Knowledge Graph Construction Community Group
     author:
@@ -285,7 +291,7 @@ Network performance KPIs:
 : The integration of data at different levels of abstraction in the network can facilitate the computation of network performance KPIs, such as throughput or packet loss ratio. By integrating data silos such as the network topology with the status of network interfaces, a network analytics application could ask the knowledge graph to compute the throughput or packets loss ratio at a specific link in the network.
 
 Anomaly detection and incident management:
-: Projects like NORIA have demonstrated how knowledge graphs can help in the detection of anomalies in network systems. This approach links data pertaining to different data silos like network infrastructure, logs, alarms, and ticketing. In another example, the combination network topology data with data about network interface status, consumers of the knowledge graph can detect network anomalies like link fault because an network interface has been unexpectedly disabled but it was configured to be enabled.
+: Projects like NORIA {{Tailhardat2023}} have demonstrated how knowledge graphs can help in the detection of anomalies in network systems. This approach links data pertaining to different data silos like network infrastructure, logs, alarms, and ticketing. In another example, the combination network topology data with data about network interface status, consumers of the knowledge graph can detect network anomalies like link fault because an network interface has been unexpectedly disabled but it was configured to be enabled.
 
 Service assurance:
 : A knowledge graph can enable the implementation of the service assurance for intent-based networking architecture defined in {{?RFC9417}}. Precisely, this architecture,  and the companion YANG data models from RFC 9418, define an assurance graph where dependencies among network services and their associated health and symptoms are captured. All these data, which can be further linked with other data silos like network topology or network interface status, can be naturally integrated and represented in a knowledge graph.
