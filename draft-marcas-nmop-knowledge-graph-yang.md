@@ -35,6 +35,11 @@ author:
   fullname: Lucia Cabanillas
   organization: Telefonica
   email: lucia.cabanillasrodriguez@telefonica.com
+- initials: P. M.
+  surname: Martinez-Julia
+  fullname: Pedro
+  organization: NICT
+  email: pedro@nict.go.jp
 
 normative:
   RFC7950:
@@ -120,6 +125,28 @@ informative:
     author:
       organization: W3C
     target: https://www.w3.org/community/kg-construct/
+  EERVC:
+    title: "Exploiting External Events for Resource Adaptation in Virtual Computer and Network Systems, IEEE Transactions on Network and Service Management 15 (2018): 555-566."
+    author:
+      organization: Pedro Martinez-Julia, Ved P. Kafle, Hiroaki Harai.
+  SECDEP:
+    title: "Secure deployment of third-party applications over 5G-NFV ML-empowered infrastructures, the 7th International Conference on Mobile Internet Security (MobiSec '23), Dec 19-21, 2023, Okinawa, Japan."
+    author:
+      organization: Ana Hermosilla, Jose Manuel Manjón-Cáliz, Pedro Martinez-Julia, Antonio Pastor, Jordi Ortiz, Diego R. Lopez, Antonio Skarmeta.
+  TKDP:
+    title: "Telemetry Knowledge Distributed Processing for Network Digital Twins and Network Resilience. NOMS 2023-2023 IEEE/IFIP Network Operations and Management Symposium (2023): 1-6."
+    author:
+      organization: Pedro Martinez-Julia, Ved P. Kafle, Hitoshi Asaeda.
+  ANSA:
+    title: "Application of Category Theory to Network Service Fault Detection. IEEE Open Journal of the Communications Society 5 (2024): 4417-4443."
+    author:
+      organization: Pedro Martinez-Julia, Ved P. Kafle, Hitoshi Asaeda.
+  AINEMA:
+    title: "Artificial Intelligence Framework for Network Management, draft-pedro-nmrg-ai-framework."
+    author:
+      organization: Pedro Martinez-Julia, Shunsuke Homma, Diego Lopez.
+    target: https://datatracker.ietf.org/doc/draft-pedro-nmrg-ai-framework/
+
 
 --- abstract
 
@@ -213,6 +240,14 @@ Similarly, the ETSI ISG CIM defined the NGSI-LD standard {{ETSI-GS-CIM-009}}, wh
 * An NGSI-LD information model which derives from the Labeled Property Graph (LPG) model and grounds on the RDF for a semantic annotation of the data in the graph.
 * The NGSI-LD API, which defines a REST API for building and interacting with the graph.
 
+## Knowledge Objects
+
+The intrinsic nature of knowledge graphs is to connect as much knowledge as possible within certain scope---time and/or space. However, not all processes and operations require whole knowledge graphs. For instance, the communication of a piece of telemetry data, organized according to NTF {{RFC9232}}, can be repreented as a subset of the knowledge graph of all measurements.
+
+A knowledge object, as defined in {{EERVC}, consists in a knowledge graph subset of an arbitrary size---from single atoms to tens or hundreds of triples---that is decorated with metadata to facilitate its contextualization.
+
+Knowledge objects are particularly well suited to enable entities that work with knowledge graphs to communicate to each other knowledge pieces, obtained from their knowledge graphs or newly created from other sources, such as monitoring. It has been demonstrated in {{SECDEP}}.
+
 # Knowledge Graph Construction (KGC)
 
 The construction of a knowledge graph can be divided into two main activities: ontology development ({{sec-onto}}) and knowledge graph construction pipeline ({{sec-pipe}}).
@@ -279,11 +314,11 @@ Regarding streaming data sources, the collector subscribes to a YANG server to r
 
 This second step consists at receiving the raw data data from the Ingestion step. Here, the raw data is mapped to the concepts capture in one or more ontologies. By applying these mapping rules, the raw data is semantically annotated and transformed into RDF data. These mappings can be declared using declarative languages like RDF Mapping Language (RML) {{Iglesias-Molina2023}}.
 
-RML is a declarative language that is currently being standardized within the W3C Knowledge Graph Construction Community group {{W3C-KGC}} that allows for defining mappings rules for raw data encoded in semi-structured formats like XML or JSON. The benefits of using a declarative language like RML are twofold: i) the engine that implements the RML rules is generic, thus the mappings rules are decoupled from the code; ii) the explicit representation of mapping and transformation rules as part of the knowledge graph provides data lineage insights that can greatly improve data quality and the troubleshooting of data pipelines. RML is making progress towards becoming a standard, but support of additional YANG encoding formats like CBOR {{?RFC8949}} or Protobuf remains a challenge.
+RML is a declarative language that is currently being standardized within the W3C Knowledge Graph Construction Community group {{W3C-KGC}} that allows for defining mappings rules for raw data encoded in semi-structured formats like XML or JSON. The benefits of using a declarative language like RML are twofold: i) the engine that implements the RML rules is generic, thus the mappings rules are decoupled from the code; ii) the explicit representation of mapping and transformation rules as part of the knowledge graph provides data lineage insights that can greatly improve data quality and the troubleshooting of data pipelines. RML is making progress towards becoming a standard, but support of additional YANG encoding formats like CBOR {{?RFC8949}} or Protobuf remains a challenge. The knowledge payload carried by CBOR and/or Protobuf is organized as knowledge objects transmitted by the mapping entities and received by the materialization entities. The use of knowledge objects allows them to easily "cut" knowledge graphs into smaller pieces, transmit them, and "paste" and/or "glue" the pieces onto the destination knowledge graph. Consistency is retained by making the same ontologies be used with the particular knowledge objects.
 
 ### Materialization
 
-This is the final step of the knowledge graph creation. This step receives as an input the RDF data generated in the Mapping step. At this point, the RDF data can be sent to an RDF triple store like Apache Jena Fuseki {{Fuseki}} for consumption via SPARQL. But alternatively, this step may transform the RDF data into an LPG structure and store the resulting data in a graph database like Neoj4 {{Neo4j}}. Similarly, the RDF data could also be transformed into the ETSI NGSI-LD standard and stored in an NGSI-LD Context Broker.
+This is the final step of the knowledge graph creation. This step receives as an input the knowledge object that contains RDF data generated in the Mapping step, which has easily manageable semantic triples---or quadruples---, as well as metadata to contextualize them and facilicate the incorporation of the knwoledge to the local knowledge graph storage element. At this point, the RDF data can be sent to an RDF triple store like Apache Jena Fuseki {{Fuseki}} for consumption via SPARQL. But alternatively, this step may transform the RDF data into an LPG structure and store the resulting data in a graph database like Neoj4 {{Neo4j}}. Similarly, the RDF data could also be transformed into the ETSI NGSI-LD standard and stored in an NGSI-LD Context Broker.
 
 # Knowledge Graph Applications
 
@@ -297,13 +332,16 @@ Service assurance:
 : A knowledge graph can enable the implementation of the service assurance for intent-based networking architecture defined in {{?RFC9417}}. Precisely, this architecture,  and the companion YANG data models from RFC 9418, define an assurance graph where dependencies among network services and their associated health and symptoms are captured. All these data, which can be further linked with other data silos like network topology or network interface status, can be naturally integrated and represented in a knowledge graph.
 
 Network digital twin:
-: Knowledge graph are considered promising candidates for the realization of network digital twins {{?I-D.irtf-nmrg-network-digital-twin-arch}}. The ability to integrate heterogenous silos of data, in combination with the explicit representation of the semantics of the data, make knowledge graph a powerful technology for building and connecting multiple network digital twins. In addition, the representation of concepts by means of ontologies, produces abstract representations of network digital twins, regardless of the complexities of the underlying technologies. For instance, an abstract representation of a network topology Digital Map {{?I-D.havel-nmop-digital-map}} in the knowledge graph can be translated into a descriptor or data model that is specific to the technology used (e.g., KNE, ContainerLab, or OSM).
+: Knowledge graph are considered promising candidates for the realization of network digital twins {{?I-D.irtf-nmrg-network-digital-twin-arch}}. Particularly, the benefits of using knowledge graphs to construct netwokr digital twins dedicated to he detection of network faults is demonstrated in {{ANSA}}. Services of such type benefit from the ability to integrate heterogenous silos of data, in combination with the explicit representation of the semantics of the data; making the knowledge graph a powerful technology for building and connecting multiple network digital twins. In addition, the representation of concepts by means of ontologies, produces abstract representations of network digital twins, regardless of the complexities of the underlying technologies. For instance, an abstract representation of a network topology Digital Map {{?I-D.havel-nmop-digital-map}} in the knowledge graph can be translated into a descriptor or data model that is specific to the technology used (e.g., KNE, ContainerLab, or OSM).
 
 Evolution of YANG Catalog:
 : The flexibility and extensibility of knowledge graphs have made them a popular choice for implementing data catalogs. The purpose of a data catalog is to provide consumers with a registry of datasets exposed by data sources where to find data of interest. Additionally, these datasets can be linked to the (business) concepts that they refer to, so that consumers can search for datasets based on relevant concepts such as “interface”. Taking inspiration from these implementations, and building on a knowledge graph, the YANG Catalog could evolve towards a data catalog, where the YANG modules represent those datasets of interest. The dependencies between YANG models (import, deviations, augments) can be naturally represented in the knowledge graph. In turn, these YANG models can be linked with concepts that are represented in ontologies. Additionally, these YANG models, can be combined with the implementation details of network devices yang lib augment {{?I-D.lincla-netconf-yang-library-augmentation}} that could be part of an inventory {{?I-D.ietf-ivy-network-inventory-yang}}.
 
 Contextualized telemetry data:
-: Having context of how YANG telemetry data {{?I-D.ietf-opsawg-collected-data-manifest}} is being collected can improve the understanding of the data for network analytics or closed-loop automation. Knowledge graphs can help in this task by linking the collected data with: (i) the metadata that characterizes the platform producing the data; and (ii) the metadata that characterizes how and when the data were metered.
+: Having context of how YANG telemetry data {{?I-D.ietf-opsawg-collected-data-manifest}} is being collected can improve the understanding of the data for network analytics or closed-loop automation. Knowledge graphs can help in this task by linking the collected data with: (i) the metadata that characterizes the platform producing the data; and (ii) the metadata that characterizes how and when the data were metered. As shown in {{TKDP}}, the application of both knowledge graphs and knowledge objects to the management of telemetry data facilitates reducing the level of coupling of multiple tasks and overall operations, which enables the resolution of current network problems through the collaboration of different stakeholers.
+
+Artificial intelligence particularization to network management:
+: The application of knowledge graphs to telemetry data is particularly necessary for applying artificial intelligence (AI) methods to network management, as supported by {{AINEMA}}. Multiple AI elements can interoperate coherently when they make use of the same ontology, they manage several sub-graphs of a bigger knowledge graph, and they use knowledge objects to communicate knowledge-based messages to each other. The benefit is demonstrated in typical network scenarios, as discussed in {{EERVC}}.
 
 # Challenges
 
