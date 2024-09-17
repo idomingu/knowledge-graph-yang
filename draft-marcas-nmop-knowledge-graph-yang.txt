@@ -5,7 +5,9 @@
 Network Management Operations                   I. D. Martinez-Casanueva
 Internet-Draft                                             L. Cabanillas
 Intended status: Informational                                Telefonica
-Expires: 21 February 2025                                 20 August 2024
+Expires: 21 March 2025                              P. M. Martinez-Julia
+                                                                    NICT
+                                                       17 September 2024
 
 
            Knowledge Graphs for YANG-based Network Management
@@ -63,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 February 2025.
+   This Internet-Draft will expire on 21 March 2025.
 
 Copyright Notice
 
@@ -88,6 +90,7 @@ Table of Contents
    3.  A Bief Introduction to Knowledge Graphs
      3.1.  What is a Knowledge Graph?
      3.2.  Key Graph Standards
+     3.3.  Knowledge Objects
    4.  Knowledge Graph Construction (KGC)
      4.1.  Ontology Development
        4.1.1.  Automatic knowledge Extraction from YANG Models
@@ -277,6 +280,26 @@ Table of Contents
    *  The NGSI-LD API, which defines a REST API for building and
       interacting with the graph.
 
+3.3.  Knowledge Objects
+
+   The intrinsic nature of knowledge graphs is to connect as much
+   knowledge as possible within certain scope---time and/or space.
+   However, not all processes and operations require whole knowledge
+   graphs.  For instance, the communication of a piece of telemetry
+   data, organized according to NTF [RFC9232], can be repreented as a
+   subset of the knowledge graph of all measurements.
+
+   A knowledge object, as defined in [EERVC], consists in a knowledge
+   graph subset of an arbitrary size---from single atoms to tens or
+   hundreds of triples---that is decorated with metadata to facilitate
+   its contextualization.
+
+   Knowledge objects are particularly well suited to enable entities
+   that work with knowledge graphs to communicate to each other
+   knowledge pieces, obtained from their knowledge graphs or newly
+   created from other sources, such as monitoring.  It has been
+   demonstrated in [SECDEP].
+
 4.  Knowledge Graph Construction (KGC)
 
    The construction of a knowledge graph can be divided into two main
@@ -432,18 +455,29 @@ Table of Contents
    lineage insights that can greatly improve data quality and the
    troubleshooting of data pipelines.  RML is making progress towards
    becoming a standard, but support of additional YANG encoding formats
-   like CBOR [RFC8949] or Protobuf remains a challenge.
+   like CBOR [RFC8949] or Protobuf remains a challenge.  The knowledge
+   payload carried by CBOR and/or Protobuf is organized as knowledge
+   objects transmitted by the mapping entities and received by the
+   materialization entities.  The use of knowledge objects allows them
+   to easily "cut" knowledge graphs into smaller pieces, transmit them,
+   and "paste" and/or "glue" the pieces onto the destination knowledge
+   graph.  Consistency is retained by making the same ontologies be used
+   with the particular knowledge objects.
 
 4.2.3.  Materialization
 
    This is the final step of the knowledge graph creation.  This step
-   receives as an input the RDF data generated in the Mapping step.  At
-   this point, the RDF data can be sent to an RDF triple store like
-   Apache Jena Fuseki [Fuseki] for consumption via SPARQL.  But
-   alternatively, this step may transform the RDF data into an LPG
-   structure and store the resulting data in a graph database like Neoj4
-   [Neo4j].  Similarly, the RDF data could also be transformed into the
-   ETSI NGSI-LD standard and stored in an NGSI-LD Context Broker.
+   receives as an input the knowledge object that contains RDF data
+   generated in the Mapping step, which has easily manageable semantic
+   triples---or quadruples---, as well as metadata to contextualize them
+   and facilicate the incorporation of the knwoledge to the local
+   knowledge graph storage element.  At this point, the RDF data can be
+   sent to an RDF triple store like Apache Jena Fuseki [Fuseki] for
+   consumption via SPARQL.  But alternatively, this step may transform
+   the RDF data into an LPG structure and store the resulting data in a
+   graph database like Neoj4 [Neo4j].  Similarly, the RDF data could
+   also be transformed into the ETSI NGSI-LD standard and stored in an
+   NGSI-LD Context Broker.
 
 5.  Knowledge Graph Applications
 
@@ -478,9 +512,12 @@ Table of Contents
 
    Network digital twin:  Knowledge graph are considered promising
       candidates for the realization of network digital twins
-      [I-D.irtf-nmrg-network-digital-twin-arch].  The ability to
+      [I-D.irtf-nmrg-network-digital-twin-arch].  Particularly, the
+      benefits of using knowledge graphs to construct netwokr digital
+      twins dedicated to he detection of network faults is demonstrated
+      in [ANSA].  Services of such type benefit from the ability to
       integrate heterogenous silos of data, in combination with the
-      explicit representation of the semantics of the data, make
+      explicit representation of the semantics of the data; making the
       knowledge graph a powerful technology for building and connecting
       multiple network digital twins.  In addition, the representation
       of concepts by means of ontologies, produces abstract
@@ -517,6 +554,22 @@ Table of Contents
       linking the collected data with: (i) the metadata that
       characterizes the platform producing the data; and (ii) the
       metadata that characterizes how and when the data were metered.
+      As shown in [TKDP], the application of both knowledge graphs and
+      knowledge objects to the management of telemetry data facilitates
+      reducing the level of coupling of multiple tasks and overall
+      operations, which enables the resolution of current network
+      problems through the collaboration of different stakeholers.
+
+   Artificial intelligence particularization to network management:  The
+      application of knowledge graphs to telemetry data is particularly
+      necessary for applying artificial intelligence (AI) methods to
+      network management, as supported by [AINEMA].  Multiple AI
+      elements can interoperate coherently when they make use of the
+      same ontology, they manage several sub-graphs of a bigger
+      knowledge graph, and they use knowledge objects to communicate
+      knowledge-based messages to each other.  The benefit is
+      demonstrated in typical network scenarios, as discussed in
+      [EERVC].
 
 6.  Challenges
 
@@ -660,7 +713,23 @@ Table of Contents
 
 10.2.  Informative References
 
+   [AINEMA]   Pedro Martinez-Julia, Shunsuke Homma, Diego Lopez.,
+              "Artificial Intelligence Framework for Network Management,
+              draft-pedro-nmrg-ai-framework.", n.d.,
+              <https://datatracker.ietf.org/doc/draft-pedro-nmrg-ai-
+              framework/>.
+
+   [ANSA]     Pedro Martinez-Julia, Ved P. Kafle, Hitoshi Asaeda.,
+              "Application of Category Theory to Network Service Fault
+              Detection. IEEE Open Journal of the Communications Society
+              5 (2024): 4417-4443.", n.d..
+
    [CSVW]     "CSVW - CSV on the Web", n.d., <https://csvw.org>.
+
+   [EERVC]    Pedro Martinez-Julia, Ved P. Kafle, Hiroaki Harai.,
+              "Exploiting External Events for Resource Adaptation in
+              Virtual Computer and Network Systems, IEEE Transactions on
+              Network and Service Management 15 (2018): 555-566.", n.d..
 
    [ETSI-GS-CIM-009]
               "Context Information Management (CIM); NGSI-LD API", March
@@ -833,6 +902,13 @@ Table of Contents
               RFC 9418, DOI 10.17487/RFC9418, July 2023,
               <https://www.rfc-editor.org/rfc/rfc9418>.
 
+   [SECDEP]   Ana Hermosilla, Jose Manuel Manjón-Cáliz, Pedro Martinez-
+              Julia, Antonio Pastor, Jordi Ortiz, Diego R. Lopez,
+              Antonio Skarmeta., "Secure deployment of third-party
+              applications over 5G-NFV ML-empowered infrastructures, the
+              7th International Conference on Mobile Internet Security
+              (MobiSec '23), Dec 19-21, 2023, Okinawa, Japan.", n.d..
+
    [SHACL]    W3C, "Shapes Constraint Language (SHACL)", July 2017,
               <https://www.w3.org/TR/shacl/>.
 
@@ -843,6 +919,12 @@ Table of Contents
               "Designing NORIA: a Knowledge Graph-based Platform for
               Anomaly Detection and Incident Management in ICT Systems",
               May 2023, <https://ceur-ws.org/Vol-3471/paper3.pdf>.
+
+   [TKDP]     Pedro Martinez-Julia, Ved P. Kafle, Hitoshi Asaeda.,
+              "Telemetry Knowledge Distributed Processing for Network
+              Digital Twins and Network Resilience. NOMS 2023-2023 IEEE/
+              IFIP Network Operations and Management Symposium (2023):
+              1-6.", n.d..
 
    [W3C-KGC]  W3C, "Knowledge Graph Construction Community Group", n.d.,
               <https://www.w3.org/community/kg-construct/>.
@@ -866,3 +948,8 @@ Authors' Addresses
    Lucia Cabanillas
    Telefonica
    Email: lucia.cabanillasrodriguez@telefonica.com
+
+
+   Pedro
+   NICT
+   Email: pedro@nict.go.jp
