@@ -54,9 +54,13 @@ informative:
     date: March 2024
   GNMI:
     title: gRPC Network Management Interface (gNMI)
+    author:
+      organization: OpenConfig
     target: https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md
   Fuseki:
     title: Apache Jena Fuseki
+    author:
+      organization: Apache
     target: https://jena.apache.org/documentation/fuseki2/
   JSON-LD:
     title: "JSON-LD 1.1: A JSON-based Serialization for Linked Data"
@@ -77,10 +81,11 @@ informative:
     date: May 2022
   Iglesias-Molina2023:
     title: "The RML Ontology: A Community-Driven Modular Redesign After a Decade of Experience in Mapping Heterogeneous Data to RDF"
-    autor:
-      organization: The Semantic Web – ISWC 2023
+    author:
+       - name: Ana Iglesias-Molina
     target: https://doi.org/10.1007/978-3-031-47243-5_9
     date: October 2023
+    seriesinfo: The Semantic Web – ISWC 2023
   Neo4j:
     title: rdflib-neo4j - RDFLib Store backed by neo4j
     target: https://github.com/neo4j-labs/rdflib-neo4j
@@ -116,7 +121,7 @@ informative:
     date: March 2013
   Tailhardat2023:
     title: "Designing NORIA: a Knowledge Graph-based Platform for Anomaly Detection and Incident Management in ICT Systems"
-    autor:
+    author:
       organization: "KGCW’23: 4th International Workshop on Knowledge Graph Construction"
     target: https://ceur-ws.org/Vol-3471/paper3.pdf
     date: May 2023
@@ -393,4 +398,4 @@ This document has no IANA actions.
 {:numbered="false"}
 This document is based on work partially funded by the EU Horizon Europe projects aerOS (grant agreement no. 101069732) and ROBUST-6G (grant agreement no. 101139068).
 
-The authors would like to thank Mohamed Boucadair and Benoit Claise for their review and valuable comments.
+The authors would like to thank Med, Benoit, Lionel, and Thomas for their review and valuable comments.
