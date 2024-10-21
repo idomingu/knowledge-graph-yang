@@ -5,9 +5,9 @@
 Network Management Operations                   I. D. Martinez-Casanueva
 Internet-Draft                                             L. Cabanillas
 Intended status: Informational                                Telefonica
-Expires: 21 March 2025                              P. M. Martinez-Julia
+Expires: 24 April 2025                              P. M. Martinez-Julia
                                                                     NICT
-                                                       17 September 2024
+                                                         21 October 2024
 
 
            Knowledge Graphs for YANG-based Network Management
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 March 2025.
+   This Internet-Draft will expire on 24 April 2025.
 
 Copyright Notice
 
@@ -736,29 +736,30 @@ Table of Contents
               2024, <https://www.etsi.org/deliver/etsi_gs/
               CIM/001_099/009/01.08.01_60/gs_CIM009v010801p.pdf>.
 
-   [Fuseki]   "Apache Jena Fuseki", n.d.,
+   [Fuseki]   Apache, "Apache Jena Fuseki", n.d.,
               <https://jena.apache.org/documentation/fuseki2/>.
 
-   [GNMI]     "gRPC Network Management Interface (gNMI)", n.d.,
+   [GNMI]     OpenConfig, "gRPC Network Management Interface (gNMI)",
+              n.d.,
               <https://github.com/openconfig/reference/blob/master/rpc/
               gnmi/gnmi-specification.md>.
 
    [I-D.boucadair-nmop-rfc3535-20years-later]
               Boucadair, M., Contreras, L. M., de Dios, O. G., Graf, T.,
-              and R. Rahman, "RFC 3535, 20 Years Later: An Update of
-              Operators Requirements on Network Management Protocols and
-              Modelling", Work in Progress, Internet-Draft, draft-
-              boucadair-nmop-rfc3535-20years-later-04, 22 July 2024,
-              <https://datatracker.ietf.org/doc/html/draft-boucadair-
-              nmop-rfc3535-20years-later-04>.
+              Rahman, R., and L. Tailhardat, "RFC 3535, 20 Years Later:
+              An Update of Operators Requirements on Network Management
+              Protocols and Modelling", Work in Progress, Internet-
+              Draft, draft-boucadair-nmop-rfc3535-20years-later-05, 16
+              October 2024, <https://datatracker.ietf.org/doc/html/
+              draft-boucadair-nmop-rfc3535-20years-later-05>.
 
    [I-D.havel-nmop-digital-map]
               Havel, O., Claise, B., de Dios, O. G., Elhassany, A., and
               T. Graf, "Modeling the Digital Map based on RFC 8345:
               Sharing Experience and Perspectives", Work in Progress,
-              Internet-Draft, draft-havel-nmop-digital-map-01, 5 July
-              2024, <https://datatracker.ietf.org/doc/html/draft-havel-
-              nmop-digital-map-01>.
+              Internet-Draft, draft-havel-nmop-digital-map-02, 21
+              October 2024, <https://datatracker.ietf.org/doc/html/
+              draft-havel-nmop-digital-map-02>.
 
    [I-D.ietf-ivy-network-inventory-yang]
               Yu, C., Belotti, S., Bouquier, J., Peruzzini, F., and P.
@@ -772,18 +773,18 @@ Table of Contents
               Claise, B., Quilbeuf, J., Lopez, D., Martinez-Casanueva,
               I. D., and T. Graf, "A Data Manifest for Contextualized
               Telemetry Data", Work in Progress, Internet-Draft, draft-
-              ietf-opsawg-collected-data-manifest-04, 8 July 2024,
+              ietf-opsawg-collected-data-manifest-05, 21 October 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-opsawg-
-              collected-data-manifest-04>.
+              collected-data-manifest-05>.
 
    [I-D.irtf-nmrg-network-digital-twin-arch]
               Zhou, C., Yang, H., Duan, X., Lopez, D., Pastor, A., Wu,
               Q., Boucadair, M., and C. Jacquenet, "Network Digital
               Twin: Concepts and Reference Architecture", Work in
               Progress, Internet-Draft, draft-irtf-nmrg-network-digital-
-              twin-arch-06, 7 July 2024,
+              twin-arch-08, 16 October 2024,
               <https://datatracker.ietf.org/doc/html/draft-irtf-nmrg-
-              network-digital-twin-arch-06>.
+              network-digital-twin-arch-08>.
 
    [I-D.lincla-netconf-yang-library-augmentation]
               Lin, Z., Claise, B., and I. D. Martinez-Casanueva,
@@ -810,9 +811,10 @@ Table of Contents
               yang-message-broker-integration-00>.
 
    [Iglesias-Molina2023]
-              "The RML Ontology: A Community-Driven Modular Redesign
-              After a Decade of Experience in Mapping Heterogeneous Data
-              to RDF", October 2023,
+              Iglesias-Molina, A., "The RML Ontology: A Community-Driven
+              Modular Redesign After a Decade of Experience in Mapping
+              Heterogeneous Data to RDF", The Semantic Web – ISWC 2023 ,
+              October 2023,
               <https://doi.org/10.1007/978-3-031-47243-5_9>.
 
    [JSON-LD]  W3C, "JSON-LD 1.1: A JSON-based Serialization for Linked
@@ -916,9 +918,11 @@ Table of Contents
               <https://www.w3.org/TR/sparql11-query/>.
 
    [Tailhardat2023]
-              "Designing NORIA: a Knowledge Graph-based Platform for
-              Anomaly Detection and Incident Management in ICT Systems",
-              May 2023, <https://ceur-ws.org/Vol-3471/paper3.pdf>.
+              KGCW’23: 4th International Workshop on Knowledge Graph
+              Construction, "Designing NORIA: a Knowledge Graph-based
+              Platform for Anomaly Detection and Incident Management in
+              ICT Systems", May 2023,
+              <https://ceur-ws.org/Vol-3471/paper3.pdf>.
 
    [TKDP]     Pedro Martinez-Julia, Ved P. Kafle, Hitoshi Asaeda.,
               "Telemetry Knowledge Distributed Processing for Network
@@ -935,8 +939,8 @@ Acknowledgments
    Europe projects aerOS (grant agreement no. 101069732) and ROBUST-6G
    (grant agreement no. 101139068).
 
-   The authors would like to thank Mohamed Boucadair and Benoit Claise
-   for their review and valuable comments.
+   The authors would like to thank Med, Benoit, Lionel, and Thomas for
+   their review and valuable comments.
 
 Authors' Addresses
 
