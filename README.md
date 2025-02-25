@@ -2,16 +2,16 @@
 
 This is the working area for the individual Internet-Draft, "Knowledge Graph Construction from Network Data Sources".
 
-* [Editor's Copy](https://idomingu.github.io/knowledge-graph-yang/#go.draft-marcas-nmop-kg-construct.html)
+* [Editor's Copy](https://idomingu.github.io/draft-marcas-nmop-kg-construct/#go.draft-marcas-nmop-kg-construct.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-marcas-nmop-kg-construct)
 * [Individual Draft](https://datatracker.ietf.org/doc/html/draft-marcas-nmop-kg-construct)
-* [Compare Editor's Copy to Individual Draft](https://idomingu.github.io/knowledge-graph-yang/#go.draft-marcas-nmop-kg-construct.diff)
+* [Compare Editor's Copy to Individual Draft](https://idomingu.github.io/draft-marcas-nmop-kg-construct/#go.draft-marcas-nmop-kg-construct.diff)
 
 
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/idomingu/knowledge-graph-yang/blob/main/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/idomingu/draft-marcas-nmop-kg-construct/blob/main/CONTRIBUTING.md).
 
 Contributions can be made by creating pull requests.
 The GitHub interface supports creating pull requests using the Edit (✏) button.
