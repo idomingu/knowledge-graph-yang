@@ -5,9 +5,9 @@
 Network Management Operations                   I. D. Martinez-Casanueva
 Internet-Draft                                             L. Cabanillas
 Intended status: Informational                                Telefonica
-Expires: 29 August 2025                                P. Martinez-Julia
+Expires: 30 August 2025                                P. Martinez-Julia
                                                                     NICT
-                                                        25 February 2025
+                                                        26 February 2025
 
 
          Knowledge Graph Construction from Network Data Sources
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 August 2025.
+   This Internet-Draft will expire on 30 August 2025.
 
 Copyright Notice
 
